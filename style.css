@@ -1,0 +1,179 @@
+/* Áp dụng font đẹp từ Google Fonts */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #e0f7fa; /* Xanh nhạt */
+    margin: 0;
+    padding: 0;
+}
+
+/* Tiêu đề H1 với hiệu ứng đánh máy */
+h1 {
+    font-size: 2em;
+    color: #5fa8d3;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #5fa8d3;
+    width: 0;
+    animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite;
+}
+
+/* Hiệu ứng typing */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* Header bo góc, nền dịu */
+header {
+    background-color: #ccecfb;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Link trong nav */
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #0288d1;
+}
+
+/* Nút bấm xem tình trạng */
+.check-btn {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border: none;
+    background-color: #4fc3f7;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.check-btn:hover {
+    background-color: #0288d1;
+}
+
+/* Trạng thái hiển thị */
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: lightgreen;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.heart-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* để không ảnh hưởng chuột */
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    color: #ff69b4; /* màu hồng hoặc đổi thành #87ceeb để xanh nhạt */
+    font-size: 20px;
+    animation: floatUp 4s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .check-btn {
+        padding: 4px 8px;
+        font-size: 14px;
+    }
+
+    #result-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+.check-btn:active {
+    transform: scale(0.95);
+}
+.month-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.month-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.center-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#result-image {
+    display: none;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: fadein 0.8s ease-in-out;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #ccecfb;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+#nav-love-img {
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
