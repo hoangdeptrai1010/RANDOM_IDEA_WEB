@@ -24,8 +24,8 @@ const currentYear = new Date().getFullYear();
 
     function getRandomImage(folder) {
       const files = {
-        "doc_than": ["/picture/doc_than/1.jpg", "/picture/doc_than/2.jpg"],
-        "co_ny": ["/picture/co_ny/1.jpg", "/picture/co_ny/2.jpg"]
+        "doc_than": ["picture/doc_than/1.jpg", "picture/doc_than/2.jpg"],
+        "co_ny": ["picture/co_ny/1.jpg", "picture/co_ny/2.jpg"]
       };
       const arr = files[folder];
       return arr[Math.floor(Math.random() * arr.length)];

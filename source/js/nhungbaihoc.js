@@ -30,7 +30,7 @@ function openModal(index) {
   // Đổi nhạc theo cảm xúc
   const audio = document.getElementById('bgMusic');
   const audioBtn = document.getElementById('audioControl');
-  const newSrc = `/sound/${emo}.mp3`;
+  const newSrc = `sound/${emo}.mp3`;
 
   if (audio.src !== location.origin + newSrc) {
     audio.src = newSrc;
