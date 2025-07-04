@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="/source/css/nhungbaihoc.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <title>Những Bài Học</title>
+  <style></style>
+</head>
+<body>
+
+  
+ <nav>
+    <a href="/source/html/Home.html">Trang chủ</a>
+    <a href="/source/html/dudoan.html">Dự đoán</a>
+    <a href="/source/html/nhungbaihoc.html" class="active">Chuyện từ xưa</a>
+  </nav>
+  <header>
+  <div class="moon"></div>
+  <div class="stars" id="stars"></div>
+  <h1>🌌 Những câu chuyện sau 12h </h1>
+</header>
+
+  <!-- Story list -->
+  <section class="story-list" id="storyList"></section>
+
+  <!-- Modal -->
+  <div class="modal" id="storyModal">
+    <div class="modal-content" id="modalContent">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <div class="emotion" id="modalEmotion"></div>
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="/sound/shawty.mp3" type="audio/mp3">
+  </audio>
+  <button id="audioControl">🔈 Tắt nhạc</button>
+ 
+  <script src ="/source/js/stories.js"></script>
+   <script src="/source/js/nhungbaihoc.js"></script>
+</body>
+</html>

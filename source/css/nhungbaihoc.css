@@ -1,0 +1,190 @@
+body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e2f;
+      color: #fff;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background-color: #111;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #ddd;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #ffd6ec;
+      text-shadow: 0 0 10px #ff85c1;
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(to top, #1e1e2f, #2b2b40);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #ffc8dd;
+      z-index: 2;
+      position: relative;
+    }
+
+    .moon {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #fffde7, #e0e0e0);
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      left: -80px;
+      animation: moveMoon 20s linear infinite;
+      box-shadow: 0 0 30px #fff;
+    }
+
+    @keyframes moveMoon {
+      0% { left: -80px; top: 20px; }
+      50% { left: 50%; top: 10px; }
+      100% { left: 110%; top: 20px; }
+    }
+
+    /* STORY LIST */
+    .story-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .story-card {
+      background-color: #33344a;
+      border-radius: 15px;
+      padding: 1.5rem;
+      width: 280px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .story-card:hover {
+      background-color: #44455e;
+      transform: translateY(-5px);
+    }
+
+    .story-title {
+      font-size: 1.2rem;
+      color: #f3d1f4;
+      margin-bottom: 0.5rem;
+    }
+
+    .story-date {
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(10, 10, 20, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: #2c2c3f;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 600px;
+      color: #fff;
+      position: relative;
+      transition: background-color 0.5s;
+    }
+
+    .modal-content h2 {
+      color: #ffd6ec;
+    }
+
+    .modal-content .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ccc;
+    }
+
+    .modal-content .emotion {
+      font-style: italic;
+      color: #a1eafb;
+      margin-bottom: 1rem;
+    }
+
+    /* Emotion backgrounds */
+    .emotion-hoitiec { background-color: #3a3a3a; }
+    .emotion-nhungnho { background-color: #2a3d4f; }
+    .emotion-tiecnuoi { background-color: #3f2f4f; }
+
+    /* Audio Control */
+    #audioControl {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #444;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    #audioControl:hover {
+      background-color: #666;
+    }
+    /* SAO LẤP LÁNH */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.6); }
+}

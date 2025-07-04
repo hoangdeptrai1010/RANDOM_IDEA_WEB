@@ -1,0 +1,466 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #E0F7FA;
+  color: #004D40;
+}
+
+header {
+position: relative; 
+  background-color: #B2EBF2;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 4px solid #26C6DA;
+}
+
+header h1 {
+  margin: 0;
+  color: #00796B;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  margin: 0 15px;
+  color: #006064;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+  color: #004D40;
+  text-decoration: underline;
+}
+
+main {
+  padding: 30px 20px;
+}
+
+.intro h2 {
+  color: #0097A7;
+  margin-bottom: 15px;
+}
+
+.intro p {
+  line-height: 1.6;
+}
+
+.quote {
+  margin-top: 40px;
+  font-style: italic;
+  text-align: center;
+  color: #00695C;
+  background-color: #B2DFDB;
+  padding: 20px;
+  border-left: 5px solid #00796B;
+  border-radius: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #B2EBF2;
+  color: #004D40;
+  margin-top: 30px;
+}
+/* GỢN SÓNG CHỮ */
+.wave-text {
+  font-size: 32px;
+  text-align: center;
+  color: #003366;
+  position: relative;
+  animation: waveText 2s ease-in-out forwards;
+  overflow: hidden;
+}
+
+@keyframes waveText {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* OVEN + KHÓI */
+.oven-area {
+  margin-left: 10px;
+  position: relative;
+  font-size: 30px;
+}
+
+.smoke {
+  position: absolute;
+  top: -20px;
+  left: 15px;
+  font-size: 20px;
+  animation: smokeUp 2s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+@keyframes smokeUp {
+  0% { transform: translateY(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
+}
+
+header {
+  position: relative;
+  background: linear-gradient(120deg, #ffecd2, #fcb69f); /* màu tươi sáng, có chiều sâu */
+  padding: 80px 20px 100px;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+}
+
+
+/* Ảnh avatar chính ở góc trái dưới */
+.main-avatar {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 80px;
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* H1 hiển thị trên cùng */
+.wave-text {
+  font-size: 32px;
+  color: #003366;
+  position: relative;
+  z-index: 2;
+  animation: waveText 1.5s ease-in-out forwards;
+}
+
+@keyframes waveText {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* NAV LINK */
+nav {
+  margin-top: 20px;
+  z-index: 2;
+  position: relative;
+}
+
+.nav-link {
+  position: relative;
+  margin: 0 15px;
+  text-decoration: none;
+  color: #004D40;
+  font-weight: bold;
+  transition: transform 0.3s;
+}
+
+.nav-link:hover {
+  color: #00796B;
+  transform: scale(1.1);
+}
+
+/* Avatar icon xuất hiện khi hover link */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  background: url('maticon.png') no-repeat center/cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link:hover::after {
+  opacity: 1;
+}
+
+/* Icon random (đằng sau chữ) */
+.random-icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.icon {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0;
+  animation: popUp 1s ease forwards;
+}
+
+@keyframes popUp {
+  0% { transform: scale(0.5); opacity: 0; top: 100%; }
+  50% { opacity: 1; }
+  100% { transform: scale(1); opacity: 0; top: 20%; }
+}
+.icon {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0;
+  animation: iconFloat 2.5s ease forwards;
+}
+
+.random-icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes iconFloat {
+  0% {
+    transform: scale(0.6) translateY(20px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.1) translateY(0px);
+  }
+  100% {
+    transform: scale(1) translateY(-50px);
+    opacity: 0;
+  }
+}
+/* Avatar và Bubble */
+    .avatar-area {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      display: flex;
+      align-items: flex-end;
+      z-index: 1;
+    }
+
+    .avatar-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeInAvatar 1.2s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    .speech-bubble {
+      margin-left: 12px;
+      background: #ffffffcc;
+      color: #333;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: scale(0.1);
+      animation: popBubble 1s ease-out forwards;
+      animation-delay: 1.5s;
+    }
+
+    /* Animations */
+    @keyframes fadeInAvatar {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes popBubble {
+      0% {
+        opacity: 0;
+        transform: scale(0.1);
+        box-shadow: 0 0 0 rgba(255,255,255,0);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(0.5);
+        box-shadow: 0 0 10px rgba(255,255,255,0.4);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      }
+    }
+    .bubble-particle {
+  position: absolute;
+  bottom: 10px;
+  left: 40px;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: bubbleUp 3s linear forwards;
+  z-index: 0;
+}
+
+@keyframes bubbleUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) scale(1.5);
+    opacity: 0;
+  }
+}
+.avatar-area {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.avatar-img {
+  width: 80px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.speech-bubble {
+  position: absolute;
+  top: -10px;        /* nằm trên avatar */
+  left: 60px;        /* đẩy sang phải một tí */
+  background: #ffffffdd;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: scale(0.8);
+  animation: showBubble 0.6s ease-out forwards;
+  animation-delay: 0.5s;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+@keyframes showBubble {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.bubble-particle {
+  position: absolute;
+  bottom: 10px;
+  left: 40px;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: bubbleUp 3s linear forwards;
+  z-index: -1; /* Đặt dưới speech bubble */
+}
+nav a {
+  position: relative;
+  display: inline-block;
+  padding-left: 28px; /* chừa chỗ cho icon */
+  transition: color 0.3s ease;
+}
+
+
+nav a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-image: url('nav.png'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.3s ease;
+}
+
+/* Hover mới hiện mặt */
+nav a:hover::before {
+  transform: translateY(-50%) scale(1);
+}
+.info-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 40px 20px;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  font-size: 18px;
+  color: #004D40;
+}
+
+.info-list li {
+  margin-bottom: 10px;
+}
+
+/* Avatar */
+.avatar-box {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.main-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #0097A7;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Chó icon */
+.dog-icon {
+  position: absolute;
+  font-size: 28px;
+  animation: runAround 5s infinite linear;
+  pointer-events: none;
+}
+
+.dog1 {
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 0s;
+}
+
+.dog2 {
+  bottom: -10px;
+  right: 50%;
+  transform: translateX(50%);
+  animation-delay: 2.5s;
+}
+
+@keyframes runAround {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(60px, -30px) rotate(90deg); }
+  50%  { transform: translate(0px, -60px) rotate(180deg); }
+  75%  { transform: translate(-60px, -30px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
