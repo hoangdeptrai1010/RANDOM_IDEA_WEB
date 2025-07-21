@@ -42,3 +42,10 @@
   }, 1000); // sau 1 giây sau khi load
 
   
+  window.onload = function () {
+    const notice = document.getElementById("wedding-overlay");
+    setTimeout(() => {
+      notice.style.display = "none";
+    }, 6000); // 6 giây sau thì ẩn đi
+  };
+
