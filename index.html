@@ -3,67 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang chủ - Hoangngtr</title>
+  <title>Nguyễn Triệu Hoàng</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <link rel="stylesheet" href="source/css/Home.css">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Lớp phủ nền mờ -->
-<div id="wedding-overlay" class="overlay">
-  <div id="wedding-notice" class="wedding-popup">
-    🎉 Tháng sau tui cưới vợ đó mọi người ơi!!! 💍❤️
+  <!-- Grain overlay -->
+  <div class="grain"></div>
+
+  <!-- Interactive Pixel Companion Elements -->
+  <div id="cursor-heart"></div>
+  <div id="pixel-cat"></div>
+
+  <!-- 3D Character (follows mouse globally) -->
+  <div class="character-wrapper" id="character-wrapper">
+    <div class="character-shadow"></div>
+    <img src="picture/huanggt.jpg" alt="Hoàng" class="character-img" id="character-img" />
   </div>
-</div>
 
+  <!-- Audio Element -->
+  <audio id="bgm" loop autoplay preload="auto">
+    <source src="sound/notcuteanymore" type="audio/mpeg">
+  </audio>
 
-  <header class="simple-header">
-  <h1 class="wave-text">Hé lu, Nguyễn Triệu Hoàng đây</h1>
-  
-  <nav>
-    <a href="index.html" class="nav-link active">Về tui</a>
-    <a href="source/html/dudoan.html" class="nav-link">Tình trạng's time</a>
-    <a href="source/html/nhungbaihoc.html" class="nav-link">Những bài học</a>
+  <!-- Navigation -->
+  <nav id="main-nav">
+    <a href="#" class="logo">H<span class="logo-dot">.</span></a>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button id="bgm-btn" class="nav-btn" title="Bật/Tắt Nhạc" style="padding: 8px 12px; font-size: 16px;">🎵</button>
+      <div class="nav-tabs">
+        <button class="nav-btn active" data-target="section-about">
+          <span class="nav-label">Về tui</span>
+        </button>
+        <button class="nav-btn" data-target="section-booking">
+          <span class="nav-label">Hẹn đi chơi</span>
+        </button>
+      </div>
+    </div>
   </nav>
 
-</div>
-  
-  <!-- Container chứa các icon xuất hiện ngẫu nhiên -->
-  <div class="random-icons"></div>
-</header>
+  <main id="scene">
 
+    <!-- ==================== TAB 1: VỀ TUI ==================== -->
+    <section id="section-about" class="page-section active">
 
+      <!-- Hero -->
+      <div class="hero" id="hero-3d">
+        <div class="hero-layer hero-bg" data-depth="0.2">
+          <div class="deco deco-circle"></div>
+          <div class="deco deco-ring"></div>
+          <div class="deco deco-dot d1"></div>
+          <div class="deco deco-dot d2"></div>
+          <div class="deco deco-dot d3"></div>
+        </div>
+        <div class="hero-content hero-layer" data-depth="0.05">
+          <p class="hero-intro">xin chào, mình là</p>
+          <h1 class="hero-name">Nguyễn<br>Triệu Hoàng</h1>
+          <div class="hero-tags">
+            <span class="cat-zone">Sinh năm 2005</span>
+            <span class="cat-zone">Đá bóng</span>
+            <span class="cat-zone">MMA</span>
+            <span class="cat-zone">Đã quy y 🙏</span>
+            <span class="cat-zone">Nấu ăn</span>
+          </div>
+        </div>
+      </div>
 
-  <main>
-    <section class="section reveal">
-  <div class="info-container">
-    <div class="info-text">
-      <ul class="info-list">
-        <li><strong>Họ tên:</strong> Nguyễn Triệu Hoàng</li>
-        <li><strong>Quê quán:</strong> Hoài Nhơn, Bình Định</li>
-        <li><strong>Lớn lên tại:</strong> Kbang, Gia Lai</li>
-        <li><strong>Sinh ngày:</strong> 10/10/2005♎</li>
-        <li><strong>Hiện là:</strong> Sinh viên tại UIT</li>
-        <li><strong>Địa điểm hiện tại:</strong> Sì gòn cụ thể là Tân Bình & Thủ Đức</li>
-        <li><strong>Tình trạng:</strong> Độc thân 🖤</li>
-      </ul>
-    </div>
-    <div class="avatar-box">
-      <img src="picture/huanggt.jpg" class="main-avatar" alt="Ảnh của Hoàng">
-      <div class="dog-icon dog1">🐶</div>
-      <div class="dog-icon dog2">🐔</div>
-    </div>
-  </div>
-</section>
+      <!-- The rest of the page is intentionally empty for the cat companion -->
+    </section>
 
-</section>
+    <!-- ==================== TAB 2: HẸN ĐI CHƠI ==================== -->
+    <section id="section-booking" class="page-section">
 
+      <div class="content-wrap">
+        <div class="booking-intro reveal-up">
+          <h2>Hẹn đi chơi</h2>
+          <p>Muốn rủ Hoàng đi đâu? Điền bên dưới, mình sẽ liên lạc lại sớm.</p>
+        </div>
 
+        <form id="booking-form" class="book-form reveal-up">
+          <div class="field">
+            <label for="f-name">Tên bạn</label>
+            <input type="text" id="f-name" name="name" required placeholder="Gọi bạn là gì?">
+          </div>
+
+          <div class="field">
+            <label for="f-contact">Liên lạc</label>
+            <input type="text" id="f-contact" name="contact" required placeholder="SĐT, Zalo, hoặc Email">
+          </div>
+
+          <div class="field">
+            <label>Đi đâu?</label>
+            <div class="activity-grid">
+              <label class="act-option cat-zone">
+                <input type="radio" name="activity" value="Đi chùa" required>
+                <span>🙏 Đi chùa</span>
+              </label>
+              <label class="act-option cat-zone">
+                <input type="radio" name="activity" value="Cà phê / Dạo phố">
+                <span>☕ Cà phê</span>
+              </label>
+              <label class="act-option cat-zone">
+                <input type="radio" name="activity" value="Đi ăn">
+                <span>🍜 Đi ăn</span>
+              </label>
+              <label class="act-option cat-zone">
+                <input type="radio" name="activity" value="Thể thao">
+                <span>🥊 Thể thao</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-date">Ngày</label>
+            <input type="date" id="f-date" name="date">
+          </div>
+
+          <div class="field">
+            <label for="f-msg">Nhắn gì thêm</label>
+            <textarea id="f-msg" name="message" rows="3" placeholder="Hoặc hông nhắn gì cũng được..."></textarea>
+          </div>
+
+          <button type="submit" class="send-btn" id="sendBtn">
+            <span class="btn-text">Gửi đi</span>
+            <span class="btn-loading"></span>
+          </button>
+        </form>
+
+        <div id="success-panel" class="success-panel">
+          <h3>Đã nhận!</h3>
+          <p>Hoàng sẽ check và reply bạn sớm nha.</p>
+          <button type="button" id="resetBtn" class="reset-btn">Gửi thêm</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
 
   <footer>
-    <p>© 2025 Hoangngtr. All rights reserved.</p>
+    <span>Hoàng — 2025</span>
   </footer>
+
   <script src="source/js/Home.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script type="module" src="source/js/main.js"></script>
 </body>
 </html>
