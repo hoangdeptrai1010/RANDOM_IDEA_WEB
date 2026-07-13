@@ -119,15 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
   revealElements(); // Initial run
 
   /* ============================================
-     BOOKING FORM
+     BOOKING FORM (Discord Webhook Integration)
   ============================================ */
   const form = document.getElementById('booking-form');
   const sendBtn = document.getElementById('sendBtn');
   const successPanel = document.getElementById('success-panel');
   const resetBtn = document.getElementById('resetBtn');
 
-  const SERVICE_ID = 'YOUR_SERVICE_ID';
-  const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  // Dán link Webhook Discord của bạn vào đây:
+  const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1526093981694562488/dabv_89wJAhLPZRYsiWg78UM76_udPQ10nA64-PQU2Dhr9qiqdSDvSBjIssehMI0P9dG';
 
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -138,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const activity = document.querySelector('input[name="activity"]:checked');
 
       if (!name || !contact || !activity) {
-        // Subtle shake on button
         sendBtn.style.animation = 'shake 0.4s ease';
         setTimeout(() => { sendBtn.style.animation = ''; }, 400);
         return;
@@ -146,29 +145,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
       sendBtn.classList.add('loading');
 
-      const data = {
-        to_name: 'Hoàng',
-        from_name: name,
-        contact: contact,
-        activity: activity.value,
-        date: document.getElementById('f-date').value || 'Chưa chọn',
-        message: document.getElementById('f-msg').value || '—'
-      };
+      const dateVal = document.getElementById('f-date').value || 'Chưa chọn';
+      const msgVal = document.getElementById('f-msg').value || '—';
 
-      // Simulated send if EmailJS not configured
-      if (SERVICE_ID === 'YOUR_SERVICE_ID') {
-        console.warn('EmailJS chưa cấu hình — chạy demo.');
+      // Chạy demo nếu chưa điền webhook
+      if (DISCORD_WEBHOOK_URL === 'YOUR_DISCORD_WEBHOOK_URL') {
+        console.warn('Discord Webhook chưa cấu hình — chạy demo.');
         setTimeout(() => onSuccess(), 1200);
         return;
       }
 
-      emailjs.send(SERVICE_ID, TEMPLATE_ID, data)
-        .then(() => onSuccess())
-        .catch((err) => {
-          console.error(err);
-          alert('Lỗi rồi! Nhắn Zalo hoặc IG cho Hoàng nha.');
-          sendBtn.classList.remove('loading');
-        });
+      // Tạo payload định dạng Embed xịn sò cho Discord
+      const payload = {
+        username: "Lịch Hẹn Của Bạn",
+        avatar_url: "https://raw.githubusercontent.com/hoangdeptrai1010/RANDOM_IDEA_WEB/main/assets/cat/orange_idle.png", // Ảnh đại diện của Bot (Mèo Cam)
+        embeds: [{
+          title: "💖 Có Lời Hẹn Mới Từ Portfolio!",
+          color: 3432616, // Màu xanh premium của web (#3464a8)
+          fields: [
+            { name: "👤 Tên khách", value: name, inline: true },
+            { name: "📞 Liên lạc", value: contact, inline: true },
+            { name: "🙏 Hoạt động", value: activity.value, inline: true },
+            { name: "📅 Ngày hẹn", value: dateVal, inline: true },
+            { name: "💬 Lời nhắn", value: msgVal }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Không thể gửi đến Discord');
+        onSuccess();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('Có lỗi xảy ra khi gửi! Bạn nhắn trực tiếp qua Zalo/Instagram giúp Hoàng nhé.');
+        sendBtn.classList.remove('loading');
+      });
     });
   }
 
