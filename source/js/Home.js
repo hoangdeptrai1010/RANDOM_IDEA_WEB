@@ -276,4 +276,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ============================================
+     WHITE DOG INTERACTION
+  ============================================ */
+  const dogContainer = document.getElementById('pixel-dog-container');
+  const dogImg = document.getElementById('pixel-dog');
+  
+  if (dogContainer && dogImg) {
+    let heartInterval = null;
+    
+    const spawnLargeHeart = () => {
+      const heart = document.createElement('div');
+      heart.className = 'large-heart-particle';
+      dogContainer.appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 1200);
+    };
+
+    dogContainer.addEventListener('mouseenter', () => {
+      dogImg.src = 'assets/dog/white_lie.gif';
+      spawnLargeHeart();
+      heartInterval = setInterval(spawnLargeHeart, 400);
+    });
+
+    dogContainer.addEventListener('mouseleave', () => {
+      if (heartInterval) {
+        clearInterval(heartInterval);
+        heartInterval = null;
+      }
+      dogImg.src = 'assets/dog/white_idle.gif';
+    });
+  }
+
 });

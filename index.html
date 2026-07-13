@@ -12,6 +12,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <link rel="stylesheet" href="source/css/Home.css">
 </head>
 <body>
@@ -66,7 +72,12 @@
         </div>
         <div class="hero-content hero-layer" data-depth="0.05">
           <p class="hero-intro">xin chào, mình là</p>
-          <h1 class="hero-name">Nguyễn<br>Triệu Hoàng</h1>
+          <h1 class="hero-name">
+            Nguyễn<br>Triệu Hoàng
+            <div id="pixel-dog-container">
+              <img id="pixel-dog" src="assets/dog/white_idle.gif" alt="White Dog">
+            </div>
+          </h1>
           <div class="hero-tags">
             <span class="cat-zone">Sinh năm 2005</span>
             <span class="cat-zone">Đá bóng</span>
