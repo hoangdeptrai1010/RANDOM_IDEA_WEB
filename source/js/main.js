@@ -27,6 +27,22 @@ function getRandomPet() {
   return { type: pool.type, color };
 }
 
+// Define reactive window.gameActive property to toggle body game-active class
+let gameActiveVal = false;
+Object.defineProperty(window, 'gameActive', {
+  get() {
+    return gameActiveVal;
+  },
+  set(val) {
+    gameActiveVal = !!val;
+    if (gameActiveVal) {
+      document.body.classList.add('game-active');
+    } else {
+      document.body.classList.remove('game-active');
+    }
+  }
+});
+
 (async () => {
   // 1. Preload all assets
   try {

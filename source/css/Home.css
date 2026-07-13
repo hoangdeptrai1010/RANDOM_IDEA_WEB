@@ -710,6 +710,27 @@ body, a, button, input, textarea, label, .nav-btn, .act-option, .send-btn, .rese
   image-rendering: pixelated;
 }
 
+/* Restore normal OS cursor and hide custom heart during games/overlays */
+body.game-active,
+body.game-active input,
+body.game-active textarea,
+body.game-active label {
+  cursor: auto !important;
+}
+
+body.game-active a,
+body.game-active button,
+body.game-active .nav-btn,
+body.game-active .act-option,
+body.game-active .send-btn,
+body.game-active .reset-btn {
+  cursor: pointer !important;
+}
+
+body.game-active #cursor-heart {
+  display: none !important;
+}
+
 #pixel-cat, .pixel-cat-base {
   position: fixed;
   top: 0; left: 0;
