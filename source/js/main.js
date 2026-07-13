@@ -4,10 +4,23 @@ import { Cursor } from './cursor.js';
 import { Cat } from './cat.js';
 import { Particles } from './particles.js';
 import { NPCCursor } from './npcCursor.js';
+import { Pet } from './pet.js';
 
 const CAT_COLOR = 'white';
-const MAX_NPC_CATS = 5;
-const npcCats = [];
+const MAX_NPC_PETS = 5;
+const npcPets = [];
+
+const PET_POOL = [
+  { type: 'cat', colors: ['white', 'black', 'brown', 'orange', 'gray', 'lightbrown'] },
+  { type: 'dog', colors: ['white', 'black', 'brown', 'akita', 'red'] },
+  { type: 'bunny', colors: ['white', 'gray', 'pink', 'purple'] }
+];
+
+function getRandomPet() {
+  const pool = PET_POOL[Math.floor(Math.random() * PET_POOL.length)];
+  const color = pool.colors[Math.floor(Math.random() * pool.colors.length)];
+  return { type: pool.type, color };
+}
 
 (async () => {
   // 1. Preload all assets
@@ -49,39 +62,43 @@ const npcCats = [];
   // 3. NPC Spawner Logic
   const catZones = document.querySelectorAll('.cat-zone');
   
-  async function spawnNPC(x, y) {
-    if (npcCats.length >= MAX_NPC_CATS) {
-      // Recycle the oldest cat
-      const oldest = npcCats.shift();
+  function spawnNPC(x, y) {
+    if (npcPets.length >= MAX_NPC_PETS) {
+      // Recycle the oldest pet
+      const oldest = npcPets.shift();
       oldest.cursor.setAnchor(x, y);
-      npcCats.push(oldest);
+      
+      const choice = getRandomPet();
+      oldest.cat.changePet(choice.type, choice.color);
+      
+      npcPets.push(oldest);
       return;
     }
 
-    const el = document.createElement('div');
+    const el = document.createElement('img');
     el.className = 'pixel-cat-base';
     document.body.appendChild(el);
     
-    const npcCat = new Cat(el, CAT_COLOR);
-    npcCat.setParticles(particles);
-    await npcCat.initSprites();
+    const choice = getRandomPet();
+    const npcPet = new Pet(el, choice.type, choice.color);
+    npcPet.setParticles(particles);
     
-    npcCat.body.x = x;
-    npcCat.body.y = y;
+    npcPet.body.x = x;
+    npcPet.body.y = y;
     
     const npcCursor = new NPCCursor(x, y, 70);
-    npcCats.push({ cat: npcCat, cursor: npcCursor, el: el });
+    npcPets.push({ cat: npcPet, cursor: npcCursor, el: el });
   }
 
   catZones.forEach(zone => {
     zone.addEventListener('mouseenter', (e) => {
-      // Spawn 1-2 cats when hovered
-      const numCatsToSpawn = Math.floor(Math.random() * 2) + 1;
+      // Spawn 1-2 pets when hovered
+      const numPetsToSpawn = Math.floor(Math.random() * 2) + 1;
       const rect = zone.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
-      for (let i = 0; i < numCatsToSpawn; i++) {
+      for (let i = 0; i < numPetsToSpawn; i++) {
         spawnNPC(centerX, centerY);
       }
     });
@@ -99,8 +116,8 @@ const npcCats = [];
     // Update main cat
     mainCat.update(dt, cursor);
     
-    // Update NPC cats
-    npcCats.forEach(npc => {
+    // Update NPC pets
+    npcPets.forEach(npc => {
       npc.cursor.update(dt);
       npc.cat.update(dt, npc.cursor);
     });
