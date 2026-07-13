@@ -86,7 +86,7 @@
           <div class="hero-tags">
             <span class="cat-zone">Sinh năm 2005</span>
             <span class="cat-zone" id="tag-football">Đá bóng ⚽</span>
-            <span class="cat-zone">MMA</span>
+            <span class="cat-zone" id="tag-mma">MMA 🥊</span>
             <span class="cat-zone">Đã quy y 🙏</span>
             <span class="cat-zone">Nấu ăn</span>
           </div>
@@ -193,6 +193,29 @@
         <h2>VICTORY! 🎉</h2>
         <p>Bạn đã cùng mèo trắng dẫn bóng xuất sắc qua mọi chướng ngại vật!</p>
         <button id="restart-game-btn" class="restart-btn">Chơi lại ⚽</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MMA Game Overlay -->
+  <div id="mma-game-overlay" class="game-overlay hidden">
+    <div class="game-container">
+      <button id="close-mma-btn" class="close-btn">&times;</button>
+      <canvas id="mma-canvas"></canvas>
+      <div id="mma-ui">
+        <div class="score-board">HP: <span id="mma-health">❤❤❤</span> | Thời gian: <span id="mma-timer">20</span>s</div>
+        <div class="game-instructions">Di chuyển mèo né găng tay đấm bay tới!</div>
+      </div>
+      <div id="mma-victory" class="victory-screen hidden">
+        <h2>VICTORY! 🎉</h2>
+        <p>Bạn đã né đòn cực đỉnh! Đây là phần thưởng dành cho bạn:</p>
+        <img src="picture/co_ny/1.jpg" alt="Easter Egg" class="easter-egg-img">
+        <button id="restart-mma-btn" class="restart-btn" style="margin-top: 10px;">Chơi lại 🥊</button>
+      </div>
+      <div id="mma-defeat" class="victory-screen hidden" style="background: rgba(45, 15, 15, 0.96);">
+        <h2 style="color: #ff6b6b;">THẤT BẠI! 😢</h2>
+        <p>Mèo trắng đã dính quá nhiều cú đấm rồi...</p>
+        <button id="retry-mma-btn" class="restart-btn">Thử lại 🥊</button>
       </div>
     </div>
   </div>

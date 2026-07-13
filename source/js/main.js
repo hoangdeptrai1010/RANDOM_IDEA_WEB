@@ -7,6 +7,7 @@ import { NPCCursor } from './npcCursor.js';
 import { Pet } from './pet.js';
 import { WeatherEngine } from './weather.js';
 import { FootballGame } from './footballGame.js';
+import { MmaGame } from './mmaGame.js';
 
 const CAT_COLOR = 'white';
 const MAX_NPC_PETS = 5;
@@ -220,7 +221,92 @@ function getRandomPet() {
     });
   }
 
-  // 6. Main Loop
+  // 6. Initialize MMA game
+  const mmaOverlay = document.getElementById('mma-game-overlay');
+  const mmaCanvas = document.getElementById('mma-canvas');
+  const mmaHealthSpan = document.getElementById('mma-health');
+  const mmaTimerSpan = document.getElementById('mma-timer');
+  const mmaVictoryScreen = document.getElementById('mma-victory');
+  const mmaDefeatScreen = document.getElementById('mma-defeat');
+  const closeMmaBtn = document.getElementById('close-mma-btn');
+  const restartMmaBtn = document.getElementById('restart-mma-btn');
+  const retryMmaBtn = document.getElementById('retry-mma-btn');
+  const tagMma = document.getElementById('tag-mma');
+
+  let mmaGame = null;
+
+  if (tagMma && mmaOverlay && mmaCanvas) {
+    mmaGame = new MmaGame(
+      mmaCanvas,
+      (hp) => {
+        if (mmaHealthSpan) {
+          mmaHealthSpan.textContent = '❤'.repeat(Math.max(0, hp)) || 'X_X';
+        }
+      },
+      (timer) => {
+        if (mmaTimerSpan) {
+          mmaTimerSpan.textContent = timer;
+        }
+      },
+      () => {
+        if (mmaVictoryScreen) mmaVictoryScreen.classList.remove('hidden');
+      },
+      () => {
+        if (mmaDefeatScreen) mmaDefeatScreen.classList.remove('hidden');
+      }
+    );
+
+    const startMmaGame = () => {
+      window.gameActive = true;
+      mmaOverlay.classList.remove('hidden');
+      mmaVictoryScreen.classList.add('hidden');
+      mmaDefeatScreen.classList.add('hidden');
+
+      // Hide elements
+      catEl.style.display = 'none';
+      cursorEl.style.display = 'none';
+      npcPets.forEach(npc => npc.el.style.display = 'none');
+
+      mmaGame.start();
+    };
+
+    const stopMmaGame = () => {
+      window.gameActive = false;
+      mmaOverlay.classList.add('hidden');
+
+      // Restore elements
+      catEl.style.display = '';
+      cursorEl.style.display = '';
+      npcPets.forEach(npc => npc.el.style.display = '');
+
+      mmaGame.stop();
+    };
+
+    tagMma.addEventListener('click', () => {
+      startMmaGame();
+    });
+
+    closeMmaBtn.addEventListener('click', () => {
+      stopMmaGame();
+    });
+
+    restartMmaBtn.addEventListener('click', () => {
+      startMmaGame();
+    });
+
+    retryMmaBtn.addEventListener('click', () => {
+      startMmaGame();
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && window.gameActive) {
+        stopMmaGame();
+      }
+    });
+  }
+
+  // 7. Main Loop
   let lastTime = performance.now();
   function loop(now) {
     let dt = (now - lastTime) / 1000;
