@@ -95,11 +95,12 @@ function getRandomPet() {
     npcPets.push({ cat: npcPet, cursor: npcCursor, el: el });
   }
 
-  catZones.forEach(zone => {
-    zone.addEventListener('mouseenter', (e) => {
+  const characterWrapper = document.getElementById('character-wrapper');
+  if (characterWrapper) {
+    characterWrapper.addEventListener('mouseenter', () => {
       // Spawn 1-2 pets when hovered
       const numPetsToSpawn = Math.floor(Math.random() * 2) + 1;
-      const rect = zone.getBoundingClientRect();
+      const rect = characterWrapper.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
@@ -107,7 +108,7 @@ function getRandomPet() {
         spawnNPC(centerX, centerY);
       }
     });
-  });
+  }
 
   // 4. Initialize weather engine & console
   const canvasEl = document.getElementById('weather-canvas');

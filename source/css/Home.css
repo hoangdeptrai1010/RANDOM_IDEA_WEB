@@ -64,10 +64,11 @@ body {
 .character-wrapper {
   position: fixed;
   z-index: 50;
-  bottom: 0;
-  right: 5vw;
-  width: 260px;
-  pointer-events: none;
+  top: calc(50% - 140px);
+  bottom: auto;
+  right: 18vw;
+  width: 280px;
+  pointer-events: auto;
   transition: transform 0.15s ease-out, opacity 0.4s ease;
   will-change: transform;
 }
@@ -659,6 +660,8 @@ footer {
   .character-wrapper {
     width: 150px;
     right: 2vw;
+    top: auto;
+    bottom: 0;
   }
   
   nav#main-nav {
