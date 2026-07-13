@@ -5,6 +5,7 @@ import { Cat } from './cat.js';
 import { Particles } from './particles.js';
 import { NPCCursor } from './npcCursor.js';
 import { Pet } from './pet.js';
+import { WeatherEngine } from './weather.js';
 
 const CAT_COLOR = 'white';
 const MAX_NPC_PETS = 5;
@@ -104,7 +105,53 @@ function getRandomPet() {
     });
   });
 
-  // 4. Main Loop
+  // 4. Initialize weather engine & console
+  const canvasEl = document.getElementById('weather-canvas');
+  const weatherEngine = new WeatherEngine(canvasEl);
+  window.isSleeping = false;
+
+  const consoleInput = document.getElementById('console-input');
+  if (consoleInput) {
+    consoleInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const text = consoleInput.value.trim().toLowerCase();
+        consoleInput.value = '';
+
+        if (text === '/sleep') {
+          window.isSleeping = !window.isSleeping;
+          
+          // Toggle sleeping state for static dog
+          const dogImg = document.getElementById('pixel-dog');
+          if (dogImg) {
+            dogImg.src = window.isSleeping ? 'assets/dog/white_lie.gif' : 'assets/dog/white_idle.gif';
+          }
+        } else if (text.startsWith('/weather ')) {
+          const type = text.replace('/weather ', '').trim();
+          if (['sun', 'rain', 'snow', 'autumn', 'clear'].includes(type)) {
+            weatherEngine.setWeather(type);
+          } else {
+            showError();
+          }
+        } else {
+          showError();
+        }
+      }
+    });
+
+    function showError() {
+      const origPlaceholder = consoleInput.placeholder;
+      consoleInput.placeholder = "Lệnh sai! Gõ /sleep hoặc /weather [sun, rain, snow, autumn, clear]";
+      consoleInput.style.color = '#ff6b6b';
+      consoleInput.readOnly = true;
+      setTimeout(() => {
+        consoleInput.placeholder = origPlaceholder;
+        consoleInput.style.color = '';
+        consoleInput.readOnly = false;
+      }, 3000);
+    }
+  }
+
+  // 5. Main Loop
   let lastTime = performance.now();
   function loop(now) {
     let dt = (now - lastTime) / 1000;
@@ -123,6 +170,7 @@ function getRandomPet() {
     });
     
     particles.update(dt);
+    weatherEngine.update(dt);
 
     requestAnimationFrame(loop);
   }

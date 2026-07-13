@@ -165,6 +165,15 @@
     <span>Hoàng — 2025</span>
   </footer>
 
+  <!-- Weather Canvas Overlay -->
+  <canvas id="weather-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999996; image-rendering: pixelated;"></canvas>
+
+  <!-- Cheat Code Console -->
+  <div id="pixel-console">
+    <span class="console-prompt">&gt;</span>
+    <input type="text" id="console-input" placeholder="Gõ lệnh /sleep hoặc /weather [sun, rain, snow, autumn, clear]..." autocomplete="off">
+  </div>
+
   <script src="source/js/Home.js"></script>
   <script type="module" src="source/js/main.js"></script>
 </body>

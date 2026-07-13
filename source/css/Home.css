@@ -35,6 +35,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   cursor: default;
+  transition: background 1.5s ease-in-out;
 }
 
 ::selection {
@@ -789,4 +790,48 @@ body, a, button, input, textarea, label, .nav-btn, .act-option, .send-btn, .rese
     transform: translate(-50%, -70px) scale(1.4);
     opacity: 0;
   }
+}
+
+/* Pixel Console Styling */
+#pixel-console {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  background: rgba(26, 39, 68, 0.85); 
+  border: 3px double #ffffff; 
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-family: monospace;
+  font-size: 14px;
+  color: #ffffff;
+  width: 90%;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+.console-prompt {
+  color: #2e6fd4; 
+  font-weight: bold;
+  margin-right: 8px;
+  user-select: none;
+  font-size: 16px;
+}
+
+#console-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 14px;
+  width: 100%;
+}
+
+#console-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }

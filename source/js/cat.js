@@ -163,6 +163,22 @@ export class Cat {
   update(dt, cursor) {
     if (!this.currentRenderer) return; // Wait for sprites to load
     
+    if (window.isSleeping) {
+      this.body.ax = 0;
+      this.body.ay = 0;
+      this.body.vx = 0;
+      this.body.vy = 0;
+      this.body.update(dt);
+      
+      this.sm.transition('land');
+      this.sm.update(dt);
+      this.currentRenderer.update(dt);
+      
+      const flip = this.facingRight ? 1 : -1;
+      this.el.style.transform = `translate3d(${this.body.x}px, ${this.body.y}px, 0) translate(-50%, -50%) scaleX(${flip})`;
+      return;
+    }
+    
     const target = cursor.getTarget();
     const dx = target.x - this.body.x;
     const dy = target.y - this.body.y;

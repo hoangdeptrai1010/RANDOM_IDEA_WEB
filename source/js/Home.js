@@ -296,12 +296,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     dogContainer.addEventListener('mouseenter', () => {
+      if (window.isSleeping) return;
       dogImg.src = 'assets/dog/white_lie.gif';
       spawnLargeHeart();
       heartInterval = setInterval(spawnLargeHeart, 400);
     });
 
     dogContainer.addEventListener('mouseleave', () => {
+      if (window.isSleeping) return;
       if (heartInterval) {
         clearInterval(heartInterval);
         heartInterval = null;
