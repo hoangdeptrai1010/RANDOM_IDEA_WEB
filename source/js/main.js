@@ -225,6 +225,7 @@ function getRandomPet() {
   }
 
   // 6. Initialize MMA game
+  const mainBgm = document.getElementById('bgm');
   const mmaOverlay = document.getElementById('mma-game-overlay');
   const mmaCanvas = document.getElementById('mma-canvas');
   const mmaHealthSpan = document.getElementById('mma-health');
@@ -237,6 +238,8 @@ function getRandomPet() {
   const tagMma = document.getElementById('tag-mma');
 
   let mmaGame = null;
+  let mmaPlayMusic = null;
+  let wasBgmPlayingMma = false;
 
   if (tagMma && mmaOverlay && mmaCanvas) {
     mmaGame = new MmaGame(
@@ -265,6 +268,20 @@ function getRandomPet() {
       mmaVictoryScreen.classList.add('hidden');
       mmaDefeatScreen.classList.add('hidden');
 
+      // Record BGM state and play MMA music
+      if (mainBgm) {
+        wasBgmPlayingMma = !mainBgm.paused;
+        mainBgm.pause();
+      }
+
+      if (!mmaPlayMusic) {
+        mmaPlayMusic = new Audio('sound/mma.mp3');
+        mmaPlayMusic.loop = true;
+        mmaPlayMusic.volume = 0.55;
+      }
+      mmaPlayMusic.currentTime = 0;
+      mmaPlayMusic.play().catch(e => console.log("Music play blocked: ", e));
+
       // Hide elements
       catEl.style.display = 'none';
       cursorEl.style.display = 'none';
@@ -276,6 +293,15 @@ function getRandomPet() {
     const stopMmaGame = () => {
       window.gameActive = false;
       mmaOverlay.classList.add('hidden');
+
+      // Stop MMA music and restore BGM
+      if (mmaPlayMusic) {
+        mmaPlayMusic.pause();
+        mmaPlayMusic.currentTime = 0;
+      }
+      if (wasBgmPlayingMma && mainBgm) {
+        mainBgm.play().catch(e => console.log(e));
+      }
 
       // Restore elements
       catEl.style.display = '';
@@ -322,9 +348,9 @@ function getRandomPet() {
   const tagCooking = document.getElementById('tag-cooking');
 
   let cookingGame = null;
+  let cookingPlayMusic = null;
   let mmaMusic = null;
   let wasBgmPlaying = false;
-  const mainBgm = document.getElementById('bgm');
 
   if (tagCooking && cookingOverlay && cookingCanvas) {
     cookingGame = new CookingGame(
@@ -342,12 +368,12 @@ function getRandomPet() {
       () => {
         // Victory callback
         if (cookingVictoryScreen) cookingVictoryScreen.classList.remove('hidden');
-        // Stop main bgm and play epic MMA music
-        if (mainBgm) {
-          mainBgm.pause();
+        // Stop gameplay music and play epic MMA music
+        if (cookingPlayMusic) {
+          cookingPlayMusic.pause();
         }
         if (!mmaMusic) {
-          mmaMusic = new Audio('sound/i-alone-am-the-honored-one.mp3');
+          mmaMusic = new Audio('sound/mma.mp3');
           mmaMusic.loop = true;
           mmaMusic.volume = 0.6;
         }
@@ -369,6 +395,7 @@ function getRandomPet() {
       // Record BGM state
       if (mainBgm) {
         wasBgmPlaying = !mainBgm.paused;
+        mainBgm.pause();
       }
 
       // Hide MMA music if playing
@@ -376,6 +403,15 @@ function getRandomPet() {
         mmaMusic.pause();
         mmaMusic.currentTime = 0;
       }
+
+      // Play gameplay music
+      if (!cookingPlayMusic) {
+        cookingPlayMusic = new Audio('sound/nauan.mp3');
+        cookingPlayMusic.loop = true;
+        cookingPlayMusic.volume = 0.55;
+      }
+      cookingPlayMusic.currentTime = 0;
+      cookingPlayMusic.play().catch(err => console.log("Music play blocked: ", err));
 
       // Hide screen companions
       catEl.style.display = 'none';
@@ -389,7 +425,11 @@ function getRandomPet() {
       window.gameActive = false;
       cookingOverlay.classList.add('hidden');
 
-      // Stop MMA music and restore BGM if it was playing
+      // Stop gameplay and MMA music, then restore BGM
+      if (cookingPlayMusic) {
+        cookingPlayMusic.pause();
+        cookingPlayMusic.currentTime = 0;
+      }
       if (mmaMusic) {
         mmaMusic.pause();
         mmaMusic.currentTime = 0;
@@ -454,9 +494,9 @@ function getRandomPet() {
         mainBgm.pause();
       }
 
-      // Play peaceful Zen music (tinhcam.mp3)
+      // Play peaceful Zen music (binhan.mp3)
       if (!zenMusic) {
-        zenMusic = new Audio('sound/tinhcam.mp3');
+        zenMusic = new Audio('sound/binhan.mp3');
         zenMusic.loop = true;
         zenMusic.volume = 0.55;
       }
