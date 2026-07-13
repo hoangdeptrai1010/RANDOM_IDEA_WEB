@@ -1124,12 +1124,27 @@ body, a, button, input, textarea, label, .nav-btn, .act-option, .send-btn, .rese
   letter-spacing: 0.3px;
 }
 
-.booking-subtitle {
+.booking-nav-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-sub-hint {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-display);
-  font-size: 14.5px;
+  font-size: 11px;
   color: var(--ink-light);
-  margin-top: 6px;
+  white-space: nowrap;
+  pointer-events: none;
   font-style: italic;
-  opacity: 0.9;
-  letter-spacing: 0.4px;
+  opacity: 0.85;
+  animation: floatSubHint 2s infinite ease-in-out;
+}
+
+@keyframes floatSubHint {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 3px); }
 }
