@@ -5,7 +5,7 @@ import { Cat } from './cat.js';
 import { Particles } from './particles.js';
 import { NPCCursor } from './npcCursor.js';
 
-const CAT_COLOR = 'orange';
+const CAT_COLOR = 'white';
 const MAX_NPC_CATS = 5;
 const npcCats = [];
 

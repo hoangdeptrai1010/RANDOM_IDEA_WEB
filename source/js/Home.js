@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Tạo payload định dạng Embed xịn sò cho Discord
       const payload = {
         username: "Lịch Hẹn Của Bạn",
-        avatar_url: "https://raw.githubusercontent.com/hoangdeptrai1010/RANDOM_IDEA_WEB/main/assets/cat/orange_idle.png", // Ảnh đại diện của Bot (Mèo Cam)
+        avatar_url: "https://raw.githubusercontent.com/hoangdeptrai1010/RANDOM_IDEA_WEB/main/assets/cat/white_idle.png", // Ảnh đại diện của Bot (Mèo Trắng)
         embeds: [{
           title: "💖 Có Lời Hẹn Mới Từ Portfolio!",
           color: 3432616, // Màu xanh premium của web (#3464a8)
