@@ -6,6 +6,7 @@ import { Particles } from './particles.js';
 import { NPCCursor } from './npcCursor.js';
 import { Pet } from './pet.js';
 import { WeatherEngine } from './weather.js';
+import { FootballGame } from './footballGame.js';
 
 const CAT_COLOR = 'white';
 const MAX_NPC_PETS = 5;
@@ -151,25 +152,96 @@ function getRandomPet() {
     }
   }
 
-  // 5. Main Loop
+  // 5. Initialize Football game
+  const footballOverlay = document.getElementById('football-game-overlay');
+  const footballCanvas = document.getElementById('football-canvas');
+  const clearedMarkersSpan = document.getElementById('cleared-markers');
+  const victoryScreen = document.getElementById('game-victory');
+  const closeGameBtn = document.getElementById('close-game-btn');
+  const restartGameBtn = document.getElementById('restart-game-btn');
+  const tagFootball = document.getElementById('tag-football');
+  
+  window.gameActive = false;
+  let footballGame = null;
+
+  if (tagFootball && footballOverlay && footballCanvas) {
+    footballGame = new FootballGame(
+      footballCanvas,
+      (score) => {
+        if (clearedMarkersSpan) clearedMarkersSpan.textContent = score;
+      },
+      () => {
+        if (victoryScreen) victoryScreen.classList.remove('hidden');
+      }
+    );
+
+    const startGame = () => {
+      window.gameActive = true;
+      footballOverlay.classList.remove('hidden');
+      victoryScreen.classList.add('hidden');
+      
+      // Hide elements
+      catEl.style.display = 'none';
+      cursorEl.style.display = 'none';
+      npcPets.forEach(npc => npc.el.style.display = 'none');
+      
+      footballGame.start();
+    };
+
+    const stopGame = () => {
+      window.gameActive = false;
+      footballOverlay.classList.add('hidden');
+      
+      // Restore elements
+      catEl.style.display = '';
+      cursorEl.style.display = '';
+      npcPets.forEach(npc => npc.el.style.display = '');
+      
+      footballGame.stop();
+    };
+
+    tagFootball.addEventListener('click', () => {
+      startGame();
+    });
+
+    closeGameBtn.addEventListener('click', () => {
+      stopGame();
+    });
+
+    restartGameBtn.addEventListener('click', () => {
+      startGame();
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && window.gameActive) {
+        stopGame();
+      }
+    });
+  }
+
+  // 6. Main Loop
   let lastTime = performance.now();
   function loop(now) {
     let dt = (now - lastTime) / 1000;
     if (dt > 0.1) dt = 0.1; 
     lastTime = now;
 
-    cursor.update(dt);
-    
-    // Update main cat
-    mainCat.update(dt, cursor);
-    
-    // Update NPC pets
-    npcPets.forEach(npc => {
-      npc.cursor.update(dt);
-      npc.cat.update(dt, npc.cursor);
-    });
-    
-    particles.update(dt);
+    if (!window.gameActive) {
+      cursor.update(dt);
+      
+      // Update main cat
+      mainCat.update(dt, cursor);
+      
+      // Update NPC pets
+      npcPets.forEach(npc => {
+        npc.cursor.update(dt);
+        npc.cat.update(dt, npc.cursor);
+      });
+      
+      particles.update(dt);
+    }
+
     weatherEngine.update(dt);
 
     requestAnimationFrame(loop);

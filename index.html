@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nguyễn Triệu Hoàng</title>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -20,6 +23,7 @@
 
   <link rel="stylesheet" href="source/css/Home.css">
 </head>
+
 <body>
 
   <!-- Grain overlay -->
@@ -81,7 +85,7 @@
           </h1>
           <div class="hero-tags">
             <span class="cat-zone">Sinh năm 2005</span>
-            <span class="cat-zone">Đá bóng</span>
+            <span class="cat-zone" id="tag-football">Đá bóng ⚽</span>
             <span class="cat-zone">MMA</span>
             <span class="cat-zone">Đã quy y 🙏</span>
             <span class="cat-zone">Nấu ăn</span>
@@ -166,15 +170,35 @@
   </footer>
 
   <!-- Weather Canvas Overlay -->
-  <canvas id="weather-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999996; image-rendering: pixelated;"></canvas>
+  <canvas id="weather-canvas"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999996; image-rendering: pixelated;"></canvas>
 
   <!-- Cheat Code Console -->
   <div id="pixel-console">
     <span class="console-prompt">&gt;</span>
-    <input type="text" id="console-input" placeholder="Gõ lệnh /sleep hoặc /weather [sun, rain, snow, autumn, clear]..." autocomplete="off">
+    <input type="text" id="console-input" placeholder="Gõ lệnh /sleep hoặc /weather [sun, rain, snow, autumn, clear]..."
+      autocomplete="off">
+  </div>
+
+  <!-- Football Game Overlay -->
+  <div id="football-game-overlay" class="game-overlay hidden">
+    <div class="game-container">
+      <button id="close-game-btn" class="close-btn">&times;</button>
+      <canvas id="football-canvas"></canvas>
+      <div id="game-ui">
+        <div class="score-board">Markers: <span id="cleared-markers">0</span>/5</div>
+        <div class="game-instructions">Rê bóng qua 5 marker màu cam! Mèo con sẽ thả tim cổ vũ!</div>
+      </div>
+      <div id="game-victory" class="victory-screen hidden">
+        <h2>VICTORY! 🎉</h2>
+        <p>Bạn đã cùng mèo trắng dẫn bóng xuất sắc qua mọi chướng ngại vật!</p>
+        <button id="restart-game-btn" class="restart-btn">Chơi lại ⚽</button>
+      </div>
+    </div>
   </div>
 
   <script src="source/js/Home.js"></script>
   <script type="module" src="source/js/main.js"></script>
 </body>
+
 </html>
