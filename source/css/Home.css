@@ -1112,3 +1112,24 @@ body, a, button, input, textarea, label, .nav-btn, .act-option, .send-btn, .rese
   0%, 100% { opacity: 0.85; text-shadow: 0 0 6px rgba(212, 175, 55, 0.4); }
   50% { opacity: 1.0; text-shadow: 0 0 15px rgba(212, 175, 55, 0.95); }
 }
+
+.mini-game-hint {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  color: var(--ink-light);
+  margin-top: -10px;
+  margin-bottom: 12px;
+  font-style: italic;
+  opacity: 0.85;
+  letter-spacing: 0.3px;
+}
+
+.booking-subtitle {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  color: var(--ink-light);
+  margin-top: 6px;
+  font-style: italic;
+  opacity: 0.9;
+  letter-spacing: 0.4px;
+}
