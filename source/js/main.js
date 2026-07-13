@@ -9,6 +9,7 @@ import { WeatherEngine } from './weather.js';
 import { FootballGame } from './footballGame.js';
 import { MmaGame } from './mmaGame.js';
 import { CookingGame } from './cookingGame.js';
+import { BuddhaScene } from './buddhaScene.js';
 
 const CAT_COLOR = 'white';
 const MAX_NPC_PETS = 5;
@@ -428,7 +429,85 @@ function getRandomPet() {
     });
   }
 
-  // 8. Main Loop
+  // 8. Initialize Buddha Zen scene
+  const buddhaOverlay = document.getElementById('buddha-game-overlay');
+  const buddhaCanvas = document.getElementById('buddha-canvas');
+  const zenChantText = document.getElementById('zen-chant');
+  const closeBuddhaBtn = document.getElementById('close-buddha-btn');
+  const tagBuddha = document.getElementById('tag-buddha');
+
+  let buddhaScene = null;
+  let zenMusic = null;
+  let wasBgmPlayingBuddha = false;
+
+  if (tagBuddha && buddhaOverlay && buddhaCanvas) {
+    buddhaScene = new BuddhaScene(buddhaCanvas, zenChantText);
+
+    const startBuddhaScene = () => {
+      window.gameActive = true;
+      buddhaOverlay.classList.remove('hidden');
+
+      // Record BGM state
+      if (mainBgm) {
+        wasBgmPlayingBuddha = !mainBgm.paused;
+        mainBgm.pause();
+      }
+
+      // Play peaceful Zen music (tinhcam.mp3)
+      if (!zenMusic) {
+        zenMusic = new Audio('sound/tinhcam.mp3');
+        zenMusic.loop = true;
+        zenMusic.volume = 0.55;
+      }
+      zenMusic.currentTime = 0;
+      zenMusic.play().catch(e => console.log("Music play blocked: ", e));
+
+      // Hide screen companions
+      catEl.style.display = 'none';
+      cursorEl.style.display = 'none';
+      npcPets.forEach(npc => npc.el.style.display = 'none');
+
+      buddhaScene.start();
+    };
+
+    const stopBuddhaScene = () => {
+      window.gameActive = false;
+      buddhaOverlay.classList.add('hidden');
+
+      // Stop Zen music and restore BGM
+      if (zenMusic) {
+        zenMusic.pause();
+        zenMusic.currentTime = 0;
+      }
+      if (wasBgmPlayingBuddha && mainBgm) {
+        mainBgm.play().catch(e => console.log(e));
+      }
+
+      // Restore screen elements
+      catEl.style.display = '';
+      cursorEl.style.display = '';
+      npcPets.forEach(npc => npc.el.style.display = '');
+
+      buddhaScene.stop();
+    };
+
+    tagBuddha.addEventListener('click', () => {
+      startBuddhaScene();
+    });
+
+    closeBuddhaBtn.addEventListener('click', () => {
+      stopBuddhaScene();
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && window.gameActive) {
+        stopBuddhaScene();
+      }
+    });
+  }
+
+  // 9. Main Loop
   let lastTime = performance.now();
   function loop(now) {
     let dt = (now - lastTime) / 1000;

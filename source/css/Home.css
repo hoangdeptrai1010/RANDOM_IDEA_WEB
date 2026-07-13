@@ -1062,3 +1062,50 @@ body, a, button, input, textarea, label, .nav-btn, .act-option, .send-btn, .rese
   image-rendering: pixelated;
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
+
+/* ============================================
+   BUDDHA ZEN MINI-SCENE OVERLAY
+   ============================================ */
+#tag-buddha {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+#tag-buddha:hover {
+  background: #d4af37 !important; /* Buddhist Gold */
+  color: #ffffff !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+}
+
+.buddha-container {
+  border: 4px double #d4af37 !important;
+  background: rgba(10, 15, 20, 0.97) !important;
+}
+
+#buddha-canvas {
+  border: 3px solid #d4af37;
+  background: #111b24; /* Night dark blue */
+  display: block;
+  max-width: 100%;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
+}
+
+.zen-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-align: center;
+  margin-top: 15px;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  animation: pulseGlow 3s infinite ease-in-out;
+  letter-spacing: 0.5px;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.85; text-shadow: 0 0 6px rgba(212, 175, 55, 0.4); }
+  50% { opacity: 1.0; text-shadow: 0 0 15px rgba(212, 175, 55, 0.95); }
+}
