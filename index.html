@@ -88,7 +88,7 @@
             <span class="cat-zone" id="tag-football">Đá bóng ⚽</span>
             <span class="cat-zone" id="tag-mma">MMA 🥊</span>
             <span class="cat-zone">Đã quy y 🙏</span>
-            <span class="cat-zone">Nấu ăn</span>
+            <span class="cat-zone" id="tag-cooking">Nấu ăn 🍳</span>
           </div>
         </div>
       </div>
@@ -216,6 +216,28 @@
         <h2 style="color: #ff6b6b;">THẤT BẠI! 😢</h2>
         <p>Mèo trắng đã dính quá nhiều cú đấm rồi...</p>
         <button id="retry-mma-btn" class="restart-btn">Thử lại 🥊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cooking Game Overlay -->
+  <div id="cooking-game-overlay" class="game-overlay hidden">
+    <div class="game-container">
+      <button id="close-cooking-btn" class="close-btn">&times;</button>
+      <canvas id="cooking-canvas"></canvas>
+      <div id="cooking-ui">
+        <div class="score-board">Điểm: <span id="cooking-score">0</span>/100 | Thời gian: <span id="cooking-timer">20</span>s</div>
+        <div class="game-instructions">Di chuyển mèo hứng hạt rơi, tránh dao và chảo!</div>
+      </div>
+      <div id="cooking-victory" class="victory-screen hidden">
+        <h2>VICTORY! 🍳🎉</h2>
+        <p>Bạn đã giúp mèo nấu ăn xuất sắc! Thưởng thức nhạc MMA cực bốc nhé!</p>
+        <button id="restart-cooking-btn" class="restart-btn" style="margin-top: 10px;">Chơi lại 🍳</button>
+      </div>
+      <div id="cooking-defeat" class="victory-screen hidden" style="background: rgba(45, 15, 15, 0.96);">
+        <h2 style="color: #ff6b6b;">THẤT BẠI! 😢</h2>
+        <p>Không đủ 100 điểm rồi...</p>
+        <button id="retry-cooking-btn" class="restart-btn">Thử lại 🍳</button>
       </div>
     </div>
   </div>

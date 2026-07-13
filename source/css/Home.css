@@ -1037,3 +1037,28 @@ body, a, button, input, textarea, label, .nav-btn, .act-option, .send-btn, .rese
   margin: 15px auto;
   image-rendering: auto; /* Keep the real image rendering smooth */
 }
+
+/* ============================================
+   COOKING MINI-GAME OVERLAY
+   ============================================ */
+#tag-cooking {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+#tag-cooking:hover {
+  background: var(--blue) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(46, 111, 212, 0.3);
+}
+
+#cooking-canvas {
+  border: 3px solid #ffffff;
+  background: #bd8c61; /* Wood cutting board warm orange-brown */
+  display: block;
+  max-width: 100%;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
