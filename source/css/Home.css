@@ -1308,6 +1308,20 @@ body.game-active #cursor-heart {
   background: rgba(26, 39, 68, 0.85);
   backdrop-filter: blur(8px);
   animation: fadeIn 0.4s ease-out;
+  cursor: auto !important;
+}
+
+.guide-modal * {
+  cursor: auto !important;
+}
+
+.guide-modal button,
+.guide-modal .guide-start-btn {
+  cursor: pointer !important;
+}
+
+body:has(#story-guide-modal:not(.hidden)) #cursor-heart {
+  display: none !important;
 }
 
 .guide-modal-content {
