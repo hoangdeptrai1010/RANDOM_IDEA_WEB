@@ -333,11 +333,23 @@
       <div id="buddha-ui" class="game-ui">
         <div class="zen-text" id="zen-chant">Nam Mô A Di Đà Phật...</div>
       </div>
-      <div id="buddha-victory" class="victory-screen hidden">
-        <h2>QUY Y PHẬT PHÁP 🙏</h2>
-        <p>Tâm hồn mèo con đã tìm thấy sự thanh tịnh an yên giữa cuộc đời.</p>
-        <h3 style="color: var(--blue); font-family: var(--font-display); margin-top: 15px;">Hãy cùng vẽ tiếp câu chuyện của mèo nhé!</h3>
-        <button id="buddha-next-btn" class="restart-btn" style="margin-top: 15px; background: #d4af37 !important;">Hẹn đi chơi cùng Hoàng 💕➔</button>
+      <div id="buddha-victory" class="dialogue-container hidden">
+        <div class="dialogue-box">
+          <div class="dialogue-avatar-row">
+            <div class="avatar-speaker left active">
+              <img src="assets/pets/cat/white_idle.gif" class="avatar-img">
+              <span>Mồn lèo</span>
+            </div>
+          </div>
+          <div class="dialogue-content">
+            <p id="buddha-dialogue-text">Bạn nghĩ sao về cuộc đời mồn lèo?</p>
+            <div class="buddha-choices-row" style="display: flex; gap: 12px; margin-top: 12px; justify-content: flex-end;">
+              <button id="buddha-choice-next" class="dialogue-btn" style="background: var(--primary) !important;">Tiếp tục ➔</button>
+              <button id="buddha-choice-yes" class="dialogue-btn hidden" style="background: var(--blue) !important; margin: 0;">Vẽ tiếp cuộc đời mèo 💖</button>
+              <button id="buddha-choice-no" class="dialogue-btn hidden" style="background: #e05656 !important; margin: 0;">Không vẽ ❌</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

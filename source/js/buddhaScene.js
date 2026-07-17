@@ -33,8 +33,10 @@ export class BuddhaScene {
     // Cat positioning
     this.cat = {
       x: 300,
-      y: 310, // Rest on the cushion
-      state: 'idle',
+      y: 350, // Floor walk level
+      facingRight: true,
+      speed: 60,
+      state: 'walk',
       time: 0
     };
 
@@ -47,6 +49,10 @@ export class BuddhaScene {
     this.chantTimer = 0;
     this.particles = [];
     this.cat.time = 0;
+    this.cat.x = 300;
+    this.cat.y = 350;
+    this.cat.facingRight = true;
+    this.cat.state = 'walk';
 
     // Initialize floating petals
     for (let i = 0; i < this.maxParticles; i++) {
@@ -101,6 +107,21 @@ export class BuddhaScene {
   update(dt) {
     this.time += dt;
     this.cat.time += dt;
+
+    // Move cat back and forth across screen
+    if (this.cat.facingRight) {
+      this.cat.x += this.cat.speed * dt;
+      if (this.cat.x > 520) {
+        this.cat.x = 520;
+        this.cat.facingRight = false;
+      }
+    } else {
+      this.cat.x -= this.cat.speed * dt;
+      if (this.cat.x < 80) {
+        this.cat.x = 80;
+        this.cat.facingRight = true;
+      }
+    }
 
     // 1. Cycle Chants
     this.chantTimer += dt;
@@ -202,27 +223,10 @@ export class BuddhaScene {
     this.ctx.arc(130, 150, 24, 0, Math.PI * 2);
     this.ctx.fill();
 
-    // 4. Draw Lotus Meditation Cushion
-    const cx = 300;
-    const cy = 345;
-    const cw = 96;
-    const ch = 16;
-
-    // Cushion base (red/gold colors)
-    this.ctx.fillStyle = '#8f1d24'; // Red
-    this.ctx.beginPath();
-    this.ctx.ellipse(cx, cy, cw / 2, ch / 2, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    // Cushion highlight border
-    this.ctx.strokeStyle = '#d4af37'; // Gold
-    this.ctx.lineWidth = 2.5;
-    this.ctx.stroke();
-
-    // 5. Draw Meditating Cat
+    // 4. Draw Meditating Cat (Walking instead of cushion)
     this.drawCat();
 
-    // 6. Draw floating particles (lotus petals & light specks)
+    // 5. Draw floating particles (lotus petals & light specks)
     this.particles.forEach(p => {
       this.ctx.save();
       this.ctx.translate(p.x, p.y);
@@ -252,25 +256,29 @@ export class BuddhaScene {
   }
 
   drawCat() {
-    const idleSheet = AssetLoader.get('cat_idle');
-    if (!idleSheet) return;
+    const walkSheet = AssetLoader.get('cat_walk');
+    if (!walkSheet) return;
 
-    // Draw the white cat breathing calmly
     const frameCount = 8;
-    const fps = 6; // slightly slower breathing for meditation
+    const fps = 8;
     const frameIndex = Math.floor(this.cat.time * fps) % frameCount;
 
-    const nativeWidth = idleSheet.naturalWidth / frameCount;
-    const nativeHeight = idleSheet.naturalHeight;
+    const nativeWidth = walkSheet.naturalWidth / frameCount;
+    const nativeHeight = walkSheet.naturalHeight;
 
-    const displayWidth = nativeWidth * 0.76;
-    const displayHeight = nativeHeight * 0.76;
+    const displayWidth = nativeWidth * 0.72;
+    const displayHeight = nativeHeight * 0.72;
 
     this.ctx.save();
-    // Position cat sitting on the cushion
     this.ctx.translate(this.cat.x, this.cat.y);
+    
+    // Scale horizontal depending on walking direction
+    if (!this.cat.facingRight) {
+      this.ctx.scale(-1, 1);
+    }
+    
     this.ctx.drawImage(
-      idleSheet,
+      walkSheet,
       frameIndex * nativeWidth, 0, nativeWidth, nativeHeight,
       -displayWidth / 2, -displayHeight, displayWidth, displayHeight
     );

@@ -513,7 +513,11 @@ Object.defineProperty(window, 'gameActive', {
   const zenChantText = document.getElementById('zen-chant');
   const closeBuddhaBtn = document.getElementById('close-buddha-btn');
   const buddhaVictoryScreen = document.getElementById('buddha-victory');
-  const buddhaNextBtn = document.getElementById('buddha-next-btn');
+  
+  const buddhaDialogueText = document.getElementById('buddha-dialogue-text');
+  const buddhaChoiceNext = document.getElementById('buddha-choice-next');
+  const buddhaChoiceYes = document.getElementById('buddha-choice-yes');
+  const buddhaChoiceNo = document.getElementById('buddha-choice-no');
 
   let zenMusic = null;
   let wasBgmPlayingBuddha = false;
@@ -524,7 +528,14 @@ Object.defineProperty(window, 'gameActive', {
       zenChantText,
       () => {
         // Victory callback
-        if (buddhaVictoryScreen) buddhaVictoryScreen.classList.remove('hidden');
+        if (buddhaVictoryScreen) {
+          buddhaVictoryScreen.classList.remove('hidden');
+          // Reset dialogue UI elements
+          if (buddhaDialogueText) buddhaDialogueText.textContent = "Bạn nghĩ sao về cuộc đời mồn lèo?";
+          buddhaChoiceNext?.classList.remove('hidden');
+          buddhaChoiceYes?.classList.add('hidden');
+          buddhaChoiceNo?.classList.add('hidden');
+        }
       }
     );
 
@@ -532,6 +543,12 @@ Object.defineProperty(window, 'gameActive', {
       window.gameActive = true;
       buddhaOverlay.classList.remove('hidden');
       buddhaVictoryScreen.classList.add('hidden');
+
+      // Reset dialogue state
+      if (buddhaDialogueText) buddhaDialogueText.textContent = "Bạn nghĩ sao về cuộc đời mồn lèo?";
+      buddhaChoiceNext?.classList.remove('hidden');
+      buddhaChoiceYes?.classList.add('hidden');
+      buddhaChoiceNo?.classList.add('hidden');
 
       // Record BGM state
       if (mainBgm) {
@@ -578,8 +595,17 @@ Object.defineProperty(window, 'gameActive', {
     };
 
     closeBuddhaBtn?.addEventListener('click', stopBuddhaScene);
-    
-    buddhaNextBtn?.addEventListener('click', () => {
+
+    // Dialogue transition to Choices
+    buddhaChoiceNext?.addEventListener('click', () => {
+      if (buddhaDialogueText) buddhaDialogueText.textContent = "Bạn có muốn vẽ tiếp cuộc đời cho mèo không?";
+      buddhaChoiceNext.classList.add('hidden');
+      buddhaChoiceYes?.classList.remove('hidden');
+      buddhaChoiceNo?.classList.remove('hidden');
+    });
+
+    // Choice YES: Go to booking card
+    buddhaChoiceYes?.addEventListener('click', () => {
       stopBuddhaScene();
       
       // Navigate to booking section
@@ -597,6 +623,32 @@ Object.defineProperty(window, 'gameActive', {
         // Smooth scroll to the form
         document.getElementById('section-booking')?.scrollIntoView({ behavior: 'smooth' });
       }
+    });
+
+    // Choice NO: Send Discord webhook and close
+    buddhaChoiceNo?.addEventListener('click', () => {
+      alert("Cảm ơn bạn đã theo dõi hành trình của mồn lèo! 🙏");
+      
+      // Webhook Discord
+      const webhookUrl = 'https://discordapp.com/api/webhooks/1526093981694562488/dabv_89wJAhLPZRYsiWg78UM76_udPQ10nA64-PQU2Dhr9qiqdSDvSBjIssehMI0P9dG';
+      const payload = {
+        username: "Hành Trình Mồn Lèo",
+        avatar_url: "https://raw.githubusercontent.com/hoangdeptrai1010/RANDOM_IDEA_WEB/assets/pets/cat/white_idle.gif",
+        embeds: [{
+          title: "👀 Lượt Xem Mới",
+          description: "Có người chỉ xem cuộc đời của mồn lèo (Không muốn vẽ tiếp).",
+          color: 14702166, // Red-rose accent
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => console.error("Webhook error: ", err));
+
+      stopBuddhaScene();
     });
   }
 
