@@ -56,6 +56,7 @@ Object.defineProperty(window, 'gameActive', {
       AssetLoader.load('cat_climb', `assets/cat/${CAT_COLOR}_wallclimb.png`),
       AssetLoader.load('cat_fall', `assets/cat/${CAT_COLOR}_fall_from_grab.png`),
       AssetLoader.load('cat_land', `assets/cat/${CAT_COLOR}_land.png`),
+      AssetLoader.load('dog_idle', 'assets/dog/white_idle.gif'),
       AssetLoader.load('dust', 'assets/particles/dust.png'),
     ]);
   } catch (e) {

@@ -46,6 +46,7 @@ export class SchoolJumpGame {
     this.mouseX = -999;
     this.mouseY = -999;
 
+    this.hearts = [];
     this.obstacles = [];
     this.lastSpawnTime = 0;
     this.spawnInterval = 2.0; // Spawn obstacle every 2s
@@ -58,6 +59,7 @@ export class SchoolJumpGame {
     this.time = 0;
     this.phase = 'play';
     this.obstacles = [];
+    this.hearts = [];
     this.lastSpawnTime = -0.5; // Starts at -0.5s so first spawns quickly at t = 1.5s
 
     this.cat.y = this.floorY;
@@ -225,6 +227,29 @@ export class SchoolJumpGame {
           if (this.onVictory) this.onVictory();
         }
       }
+
+      // Spawn floating hearts between cat (x=100) and dog (x=200) when dog is close
+      if (this.dog.x < 350) {
+        if (Math.random() < 0.05) {
+          this.hearts.push({
+            x: 110 + Math.random() * (this.dog.x - 120),
+            y: this.floorY - 15 - Math.random() * 10,
+            vy: -45 - Math.random() * 35,
+            size: 6 + Math.random() * 6,
+            opacity: 1
+          });
+        }
+      }
+
+      // Update heart particles
+      for (let i = this.hearts.length - 1; i >= 0; i--) {
+        const h = this.hearts[i];
+        h.y += h.vy * dt;
+        h.opacity -= dt * 0.8;
+        if (h.opacity <= 0) {
+          this.hearts.splice(i, 1);
+        }
+      }
     }
   }
 
@@ -303,9 +328,10 @@ export class SchoolJumpGame {
       this.drawBook(obs.x, this.floorY - obs.h, obs.w, obs.h, obs.color);
     });
 
-    // 3. Draw Dog Bông if in cutscene
+    // 3. Draw Dog Bông & Hearts if in cutscene
     if (this.phase === 'cutscene') {
       this.drawDog();
+      this.drawHearts();
       this.drawTooltip();
     }
 
@@ -338,34 +364,70 @@ export class SchoolJumpGame {
   }
 
   drawDog() {
+    const dogImg = AssetLoader.get('dog_idle');
     this.ctx.save();
     const dx = this.dog.x;
     const dy = this.dog.y;
     
-    // Draw white retro pixel dog (Bông)
-    this.ctx.fillStyle = '#ffffff'; // White body
-    this.ctx.fillRect(dx - 12, dy - 20, 24, 16); // body
-    this.ctx.fillRect(dx + 4, dy - 28, 12, 10); // head
-    
-    this.ctx.fillStyle = '#f2d1d1'; // Pink ears
-    this.ctx.fillRect(dx + 2, dy - 26, 4, 6);
-    
-    this.ctx.fillStyle = '#000000'; // Eyes & nose
-    this.ctx.fillRect(dx + 12, dy - 25, 2, 2); // eye
-    this.ctx.fillRect(dx + 15, dy - 22, 2, 2); // nose
-    
-    // Animating legs
-    const legOffset = Math.sin(this.dog.frameTime * 12) > 0 ? 3 : 0;
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.fillRect(dx - 8, dy - 4, 3, 4); // leg 1
-    this.ctx.fillRect(dx - 2, dy - 4 + legOffset, 3, 4); // leg 2
-    this.ctx.fillRect(dx + 4, dy - 4, 3, 4); // leg 3
-    this.ctx.fillRect(dx + 8, dy - 4 + legOffset, 3, 4); // leg 4
-    
-    // Tail
-    this.ctx.fillRect(dx - 15, dy - 18, 4, 4);
-    
+    if (dogImg) {
+      // Draw Bông using white_idle.gif asset
+      const displayWidth = 32;
+      const displayHeight = 32;
+      this.ctx.translate(dx, dy - 16);
+      this.ctx.drawImage(
+        dogImg,
+        -displayWidth / 2, -displayHeight / 2,
+        displayWidth, displayHeight
+      );
+    } else {
+      // Draw white retro pixel dog (Bông) fallback
+      this.ctx.fillStyle = '#ffffff'; // White body
+      this.ctx.fillRect(dx - 12, dy - 20, 24, 16); // body
+      this.ctx.fillRect(dx + 4, dy - 28, 12, 10); // head
+      
+      this.ctx.fillStyle = '#f2d1d1'; // Pink ears
+      this.ctx.fillRect(dx + 2, dy - 26, 4, 6);
+      
+      this.ctx.fillStyle = '#000000'; // Eyes & nose
+      this.ctx.fillRect(dx + 12, dy - 25, 2, 2); // eye
+      this.ctx.fillRect(dx + 15, dy - 22, 2, 2); // nose
+      
+      // Animating legs
+      const legOffset = Math.sin(this.dog.frameTime * 12) > 0 ? 3 : 0;
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fillRect(dx - 8, dy - 4, 3, 4); // leg 1
+      this.ctx.fillRect(dx - 2, dy - 4 + legOffset, 3, 4); // leg 2
+      this.ctx.fillRect(dx + 4, dy - 4, 3, 4); // leg 3
+      this.ctx.fillRect(dx + 8, dy - 4 + legOffset, 3, 4); // leg 4
+      
+      // Tail
+      this.ctx.fillRect(dx - 15, dy - 18, 4, 4);
+    }
     this.ctx.restore();
+  }
+
+  drawHearts() {
+    this.hearts.forEach(h => {
+      this.ctx.save();
+      this.ctx.globalAlpha = h.opacity;
+      this.ctx.fillStyle = '#ff6b6b';
+      
+      const hx = h.x;
+      const hy = h.y;
+      const size = h.size;
+      
+      this.ctx.beginPath();
+      this.ctx.moveTo(hx, hy + size / 4);
+      this.ctx.quadraticCurveTo(hx, hy, hx - size / 2, hy);
+      this.ctx.quadraticCurveTo(hx - size, hy, hx - size, hy + size / 2);
+      this.ctx.quadraticCurveTo(hx - size, hy + size, hx, hy + size * 1.3);
+      this.ctx.quadraticCurveTo(hx + size, hy + size, hx + size, hy + size / 2);
+      this.ctx.quadraticCurveTo(hx + size, hy, hx + size / 2, hy);
+      this.ctx.quadraticCurveTo(hx, hy, hx, hy + size / 4);
+      this.ctx.closePath();
+      this.ctx.fill();
+      this.ctx.restore();
+    });
   }
 
   drawTooltip() {

@@ -1562,3 +1562,27 @@ body:has(#story-guide-modal:not(.hidden)) #cursor-heart {
 .guide-modal.hidden {
   display: none !important;
 }
+
+/* Custom layout for School Jump victory next button overlay */
+#school-jump-overlay #school-victory.victory-screen {
+  background: transparent !important;
+  pointer-events: none;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 24px;
+}
+
+#school-jump-overlay #school-victory.victory-screen.hidden {
+  display: none !important;
+}
+
+#school-jump-overlay #school-victory h2 {
+  display: none !important;
+}
+
+#school-jump-overlay #school-victory #school-next-btn {
+  pointer-events: auto;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  animation: bounceIcon 1.5s infinite ease-in-out;
+}
