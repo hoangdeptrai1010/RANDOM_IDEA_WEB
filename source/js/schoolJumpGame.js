@@ -229,8 +229,8 @@ export class SchoolJumpGame {
   }
 
   spawnObstacle() {
-    const bookWidth = 24 + Math.random() * 12;
-    const bookHeight = 28 + Math.random() * 12;
+    const bookWidth = 16 + Math.random() * 6; // smaller width (16 - 22 px)
+    const bookHeight = 18 + Math.random() * 8; // smaller height (18 - 26 px)
     const colors = ['#d9534f', '#5bc0de', '#5cb85c', '#f0ad4e', '#8e44ad'];
     
     this.obstacles.push({
