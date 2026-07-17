@@ -361,7 +361,7 @@ export class SchoolJumpGame {
 
     // 3. Draw Dog Bông & Hearts if in cutscene
     if (this.phase === 'cutscene') {
-      this.drawDog();
+      // this.drawDog();
       this.drawHearts();
       this.drawTooltip();
     }

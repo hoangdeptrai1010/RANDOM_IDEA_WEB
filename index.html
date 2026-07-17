@@ -221,8 +221,10 @@
     <div class="game-container">
       <button id="close-school-btn" class="close-btn">&times;</button>
       <div class="level-progress-bar"><div class="progress" style="width: 20%;"></div></div>
-      <canvas id="school-canvas"></canvas>
-      <img id="school-dog-sprite" class="game-dog-sprite hidden" src="assets/pets/dog/white_idle.gif" alt="Bông">
+      <div class="canvas-wrapper">
+        <canvas id="school-canvas"></canvas>
+        <img id="school-dog-sprite" class="game-dog-sprite hidden" src="assets/pets/dog/white_idle.gif" alt="Bông">
+      </div>
       <div id="school-ui" class="game-ui">
         <div class="score-board">Chặng 1/5 | Vượt qua sách vở: <span id="school-score">0</span>/5</div>
         <div class="game-instructions">Nhấp chuột hoặc gõ phím Cách (Space) để giúp mèo nhảy qua sách vở!</div>
@@ -240,8 +242,10 @@
     <div class="game-container">
       <button id="close-toxic-btn" class="close-btn">&times;</button>
       <div class="level-progress-bar"><div class="progress" style="width: 40%;"></div></div>
-      <canvas id="toxic-canvas"></canvas>
-      <img id="toxic-dog-sprite" class="game-dog-sprite hidden" src="assets/pets/dog/white_idle.gif" alt="Bông">
+      <div class="canvas-wrapper">
+        <canvas id="toxic-canvas"></canvas>
+        <img id="toxic-dog-sprite" class="game-dog-sprite hidden" src="assets/pets/dog/white_idle.gif" alt="Bông">
+      </div>
       <div id="toxic-ui" class="game-ui">
         <div class="score-board">Chặng 2/5 | HP: <span id="toxic-health">❤❤❤</span> | Thời gian: <span id="toxic-timer">15</span>s</div>
         <div class="game-instructions">Di chuyển chuột để mèo con và Bông né các lời nói độc hại! Rê chuột vào chú chó để hiện tên nhé!</div>

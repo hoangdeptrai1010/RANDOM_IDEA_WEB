@@ -1605,3 +1605,10 @@ body:has(#story-guide-modal:not(.hidden)) #cursor-heart {
 .game-dog-sprite.hidden {
   display: none !important;
 }
+
+.canvas-wrapper {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
+}
