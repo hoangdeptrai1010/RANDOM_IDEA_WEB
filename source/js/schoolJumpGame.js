@@ -150,10 +150,10 @@ export class SchoolJumpGame {
   update(dt) {
     this.time += dt;
 
-    // Apply gravity to cat
+    // Apply gravity to cat (scaled by 60 * dt to match retro physics behavior)
     if (!this.cat.isGrounded) {
-      this.cat.vy += this.gravity;
-      this.cat.y += this.cat.vy;
+      this.cat.vy += this.gravity * 60 * dt;
+      this.cat.y += this.cat.vy * 60 * dt;
 
       if (this.cat.y >= this.floorY) {
         this.cat.y = this.floorY;
@@ -173,7 +173,7 @@ export class SchoolJumpGame {
       // Update obstacles
       for (let i = this.obstacles.length - 1; i >= 0; i--) {
         const obs = this.obstacles[i];
-        obs.x -= obs.speed * (1 + this.score * 0.05); // speed increases slightly with score
+        obs.x -= obs.speed * (1 + this.score * 0.05) * dt; // speed scaled by dt
 
         // Check collision
         if (
@@ -206,10 +206,10 @@ export class SchoolJumpGame {
         }
       }
     } else if (this.phase === 'cutscene') {
-      // Clear remaining books off screen
+      // Clear remaining books off screen (scaled by dt)
       for (let i = this.obstacles.length - 1; i >= 0; i--) {
         const obs = this.obstacles[i];
-        obs.x -= obs.speed;
+        obs.x -= obs.speed * dt;
         if (obs.x < -obs.w) {
           this.obstacles.splice(i, 1);
         }
