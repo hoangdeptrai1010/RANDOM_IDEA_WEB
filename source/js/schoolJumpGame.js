@@ -126,11 +126,23 @@ export class SchoolJumpGame {
     this.running = true;
     this.initEntities();
     this.lastTime = performance.now();
+    
+    // Hide Bông DOM element initially
+    const dogEl = document.getElementById('school-dog-sprite');
+    if (dogEl) {
+      dogEl.classList.add('hidden');
+    }
+
     this.loop();
   }
 
   stop() {
     this.running = false;
+    // Hide Bông DOM element
+    const dogEl = document.getElementById('school-dog-sprite');
+    if (dogEl) {
+      dogEl.classList.add('hidden');
+    }
   }
 
   loop = () => {
@@ -198,6 +210,11 @@ export class SchoolJumpGame {
           // Win transition to cutscene
           if (this.score >= 5) {
             this.phase = 'cutscene';
+            const dogEl = document.getElementById('school-dog-sprite');
+            if (dogEl) {
+              dogEl.classList.remove('hidden');
+              dogEl.src = 'assets/pets/dog/white_walk.gif';
+            }
             return;
           }
         }
@@ -225,6 +242,20 @@ export class SchoolJumpGame {
           this.dog.x = this.dog.targetX;
           // Open victory screen overlay
           if (this.onVictory) this.onVictory();
+        }
+      }
+
+      // Update Bông DOM element position and animation state
+      const dogEl = document.getElementById('school-dog-sprite');
+      if (dogEl) {
+        dogEl.style.left = `${this.dog.x}px`;
+        dogEl.style.top = `${this.floorY}px`;
+        
+        // Toggle walking/idle GIF
+        const isWalking = this.dog.x > this.dog.targetX;
+        const expectedSrc = isWalking ? 'assets/pets/dog/white_walk.gif' : 'assets/pets/dog/white_idle.gif';
+        if (!dogEl.src.endsWith(expectedSrc)) {
+          dogEl.src = expectedSrc;
         }
       }
 

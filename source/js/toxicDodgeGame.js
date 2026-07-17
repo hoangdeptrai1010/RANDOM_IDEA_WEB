@@ -108,11 +108,24 @@ export class ToxicDodgeGame {
     this.running = true;
     this.initEntities();
     this.lastTime = performance.now();
+
+    // Show Bông DOM element
+    const dogEl = document.getElementById('toxic-dog-sprite');
+    if (dogEl) {
+      dogEl.classList.remove('hidden');
+      dogEl.src = 'assets/pets/dog/white_idle.gif';
+    }
+
     this.loop();
   }
 
   stop() {
     this.running = false;
+    // Hide Bông DOM element
+    const dogEl = document.getElementById('toxic-dog-sprite');
+    if (dogEl) {
+      dogEl.classList.add('hidden');
+    }
   }
 
   loop = () => {
@@ -247,6 +260,23 @@ export class ToxicDodgeGame {
         if (this.onComplete) this.onComplete();
       }
     }
+
+    // Update Bông DOM element position and animation state
+    const dogEl = document.getElementById('toxic-dog-sprite');
+    if (dogEl) {
+      dogEl.style.left = `${this.dog.x}px`;
+      dogEl.style.top = `${this.dog.y}px`;
+      
+      // Flip Bông if not facing right
+      dogEl.style.transform = this.dog.facingRight ? 'translate(-50%, -100%)' : 'translate(-50%, -100%) scaleX(-1)';
+      
+      // Toggle walking/idle GIF
+      const isWalking = (this.phase === 'dodge' && this.dog.state === 'walk') || this.phase === 'walkAway';
+      const expectedSrc = isWalking ? 'assets/pets/dog/white_walk.gif' : 'assets/pets/dog/white_idle.gif';
+      if (!dogEl.src.endsWith(expectedSrc)) {
+        dogEl.src = expectedSrc;
+      }
+    }
   }
 
   spawnWord() {
@@ -299,7 +329,7 @@ export class ToxicDodgeGame {
     }
 
     // 3. Draw Dog Bông
-    this.drawDog();
+    // this.drawDog();
 
     // 4. Draw Cat
     this.drawCat();
