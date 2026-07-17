@@ -371,55 +371,71 @@ export class ToxicDodgeGame {
   }
 
   drawDog() {
-    // Dog is drawn using white dog frames
-    // Since we don't have spritesheets for dog, we can draw a custom pixel-art dog in 2D canvas
-    // OR we can draw Bông as a cute pixel art shape
+    const dogImg = AssetLoader.get('dog_idle');
     this.ctx.save();
-    this.ctx.translate(this.dog.x, this.dog.y - 12);
-    if (!this.dog.facingRight) {
-      this.ctx.scale(-1, 1);
-    }
-
-    // Cheering animation hop
-    const hop = (this.dog.state === 'walk') ? Math.floor(Math.sin(this.time * 10) * 2) : 0;
-    const dy = hop;
-
-    // Drawing a retro pixel art White Dog
-    // Tail
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.fillRect(-12, dy - 2, 4, 3);
+    const dx = this.dog.x;
+    const dy = this.dog.y;
     
-    // Body
-    this.ctx.fillRect(-8, dy - 5, 14, 10);
-    this.ctx.fillStyle = '#e5e9f0'; // shadows
-    this.ctx.fillRect(-8, dy + 2, 14, 3);
-
-    // Legs
-    this.ctx.fillStyle = '#ffffff';
-    if (this.dog.state === 'walk') {
-      const step = Math.floor(this.time * 8) % 2;
-      this.ctx.fillRect(-6, dy + 5, 2, 4 - step * 2);
-      this.ctx.fillRect(2, dy + 5, 2, 2 + step * 2);
+    if (dogImg) {
+      const displayWidth = 32;
+      const displayHeight = 32;
+      this.ctx.translate(dx, dy - 16);
+      if (!this.dog.facingRight) {
+        this.ctx.scale(-1, 1);
+      }
+      this.ctx.drawImage(
+        dogImg,
+        -displayWidth / 2, -displayHeight / 2,
+        displayWidth, displayHeight
+      );
     } else {
-      this.ctx.fillRect(-6, dy + 5, 2, 4);
-      this.ctx.fillRect(2, dy + 5, 2, 4);
+      // Fallback white dog drawing
+      this.ctx.translate(dx, dy - 12);
+      if (!this.dog.facingRight) {
+        this.ctx.scale(-1, 1);
+      }
+
+      // Cheering animation hop
+      const hop = (this.dog.state === 'walk') ? Math.floor(Math.sin(this.time * 10) * 2) : 0;
+      const dyOffset = hop;
+
+      // Drawing a retro pixel art White Dog
+      // Tail
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fillRect(-12, dyOffset - 2, 4, 3);
+      
+      // Body
+      this.ctx.fillRect(-8, dyOffset - 5, 14, 10);
+      this.ctx.fillStyle = '#e5e9f0'; // shadows
+      this.ctx.fillRect(-8, dyOffset + 2, 14, 3);
+
+      // Legs
+      this.ctx.fillStyle = '#ffffff';
+      if (this.dog.state === 'walk') {
+        const step = Math.floor(this.time * 8) % 2;
+        this.ctx.fillRect(-6, dyOffset + 5, 2, 4 - step * 2);
+        this.ctx.fillRect(2, dyOffset + 5, 2, 2 + step * 2);
+      } else {
+        this.ctx.fillRect(-6, dyOffset + 5, 2, 4);
+        this.ctx.fillRect(2, dyOffset + 5, 2, 4);
+      }
+
+      // Head
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fillRect(4, dyOffset - 11, 8, 8);
+      this.ctx.fillRect(10, dyOffset - 9, 3, 4); // muzzle
+      
+      // Ears (floppy)
+      this.ctx.fillStyle = '#d8dee9';
+      this.ctx.fillRect(3, dyOffset - 11, 2, 5);
+
+      // Nose
+      this.ctx.fillStyle = '#2e3440';
+      this.ctx.fillRect(13, dyOffset - 9, 1, 1);
+
+      // Eyes
+      this.ctx.fillRect(9, dyOffset - 8, 1, 1);
     }
-
-    // Head
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.fillRect(4, dy - 11, 8, 8);
-    this.ctx.fillRect(10, dy - 9, 3, 4); // muzzle
-    
-    // Ears (floppy)
-    this.ctx.fillStyle = '#d8dee9';
-    this.ctx.fillRect(3, dy - 11, 2, 5);
-
-    // Nose
-    this.ctx.fillStyle = '#2e3440';
-    this.ctx.fillRect(13, dy - 9, 1, 1);
-
-    // Eyes
-    this.ctx.fillRect(9, dy - 8, 1, 1);
 
     this.ctx.restore();
   }
