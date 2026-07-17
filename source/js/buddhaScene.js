@@ -33,7 +33,7 @@ export class BuddhaScene {
     // Cat positioning
     this.cat = {
       x: 300,
-      y: 350, // Floor walk level
+      y: 250, // Floor walk level adjusted to not overlap with bottom dialogue
       facingRight: true,
       speed: 60,
       state: 'walk',
@@ -50,7 +50,7 @@ export class BuddhaScene {
     this.particles = [];
     this.cat.time = 0;
     this.cat.x = 300;
-    this.cat.y = 350;
+    this.cat.y = 250;
     this.cat.facingRight = true;
     this.cat.state = 'walk';
 
@@ -125,7 +125,7 @@ export class BuddhaScene {
 
     // 1. Cycle Chants
     this.chantTimer += dt;
-    if (this.chantTimer >= 3.5) {
+    if (this.chantTimer >= 1.5) {
       this.chantTimer = 0;
 
       // If we finished the last chant, trigger victory
