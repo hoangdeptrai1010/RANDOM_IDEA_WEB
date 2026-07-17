@@ -172,6 +172,19 @@ Object.defineProperty(window, 'gameActive', {
     }
   }
 
+  // Shared game variables and controllers declared in outer scope
+  let startSchoolGame = () => {};
+  let startToxicGame = () => {};
+  let startFootballGame = () => {};
+  let startMmaGame = () => {};
+  let startBuddhaScene = () => {};
+
+  let schoolGame = null;
+  let toxicGame = null;
+  let footballGame = null;
+  let mmaGame = null;
+  let buddhaScene = null;
+
   // 5. Initialize linear story mode games
   const tagStartStory = document.getElementById('tag-start-story');
   const guideModal = document.getElementById('story-guide-modal');
@@ -203,8 +216,6 @@ Object.defineProperty(window, 'gameActive', {
   const schoolVictoryScreen = document.getElementById('school-victory');
   const closeSchoolBtn = document.getElementById('close-school-btn');
 
-  let schoolGame = null;
-
   if (schoolOverlay && schoolCanvas) {
     schoolGame = new SchoolJumpGame(
       schoolCanvas,
@@ -216,7 +227,7 @@ Object.defineProperty(window, 'gameActive', {
       }
     );
 
-    const startSchoolGame = () => {
+    startSchoolGame = () => {
       window.gameActive = true;
       schoolOverlay.classList.remove('hidden');
       schoolVictoryScreen.classList.add('hidden');
@@ -261,7 +272,6 @@ Object.defineProperty(window, 'gameActive', {
   const dialogueText = document.getElementById('dialogue-text');
   const dialogueNextBtn = document.getElementById('dialogue-next-btn');
 
-  let toxicGame = null;
   let currentDialogIndex = 0;
   
   // Dialog script
@@ -292,7 +302,7 @@ Object.defineProperty(window, 'gameActive', {
       }
     );
 
-    const startToxicGame = () => {
+    startToxicGame = () => {
       window.gameActive = true;
       toxicOverlay.classList.remove('hidden');
       toxicVictoryScreen.classList.add('hidden');
@@ -369,8 +379,6 @@ Object.defineProperty(window, 'gameActive', {
   const closeFootballBtn = document.getElementById('close-game-btn');
   const footballNextBtn = document.getElementById('football-next-btn');
 
-  let footballGame = null;
-
   if (footballOverlay && footballCanvas) {
     footballGame = new FootballGame(
       footballCanvas,
@@ -382,7 +390,7 @@ Object.defineProperty(window, 'gameActive', {
       }
     );
 
-    const startFootballGame = () => {
+    startFootballGame = () => {
       window.gameActive = true;
       footballOverlay.classList.remove('hidden');
       footballVictoryScreen.classList.add('hidden');
@@ -426,7 +434,6 @@ Object.defineProperty(window, 'gameActive', {
   const mmaNextBtn = document.getElementById('mma-next-btn');
   const retryMmaBtn = document.getElementById('retry-mma-btn');
 
-  let mmaGame = null;
   let mmaPlayMusic = null;
   let wasBgmPlayingMma = false;
 
@@ -447,7 +454,7 @@ Object.defineProperty(window, 'gameActive', {
       }
     );
 
-    const startMmaGame = () => {
+    startMmaGame = () => {
       window.gameActive = true;
       mmaOverlay.classList.remove('hidden');
       mmaVictoryScreen.classList.add('hidden');
@@ -512,7 +519,6 @@ Object.defineProperty(window, 'gameActive', {
   const buddhaVictoryScreen = document.getElementById('buddha-victory');
   const buddhaNextBtn = document.getElementById('buddha-next-btn');
 
-  let buddhaScene = null;
   let zenMusic = null;
   let wasBgmPlayingBuddha = false;
 
@@ -526,7 +532,7 @@ Object.defineProperty(window, 'gameActive', {
       }
     );
 
-    const startBuddhaScene = () => {
+    startBuddhaScene = () => {
       window.gameActive = true;
       buddhaOverlay.classList.remove('hidden');
       buddhaVictoryScreen.classList.add('hidden');
