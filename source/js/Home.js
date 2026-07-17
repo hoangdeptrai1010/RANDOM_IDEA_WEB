@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tilt = mouseX * 5;
     if (character) character.style.transform = `translate(${charX}px, ${charY}px) rotate(${tilt * 0.3}deg)`;
     const scale = 1 + mouseY * 0.02;
-    if (charImg) charImg.style.transform = `scaleX(${mouseX > 0 ? 1 : -1 }) scale(${scale})`;
+    if (charImg) charImg.style.transform = `scaleX(${mouseX > 0 ? 1 : -1}) scale(${scale})`;
 
     requestAnimationFrame(animateAll);
   }
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         username: "Lịch Hẹn Của Bạn",
         avatar_url: "https://raw.githubusercontent.com/hoangdeptrai1010/RANDOM_IDEA_WEB/main/assets/cat/white_idle.png", // Ảnh đại diện của Bot (Mèo Trắng)
         embeds: [{
-          title: "💖 Có Lời Hẹn Mới Từ Portfolio!",
+          title: "💖 Có Lời Hẹn Mới",
           color: 3432616, // Màu xanh premium của web (#3464a8)
           fields: [
             { name: "👤 Tên khách", value: name, inline: true },
@@ -178,15 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Không thể gửi đến Discord');
-        onSuccess();
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('Có lỗi xảy ra khi gửi! Bạn nhắn trực tiếp qua Zalo/Instagram giúp Hoàng nhé.');
-        sendBtn.classList.remove('loading');
-      });
+        .then(res => {
+          if (!res.ok) throw new Error('Không thể gửi đến Discord');
+          onSuccess();
+        })
+        .catch((err) => {
+          console.error(err);
+          alert('Có lỗi xảy ra khi gửi! Bạn nhắn trực tiếp qua Zalo/Instagram giúp Hoàng nhé.');
+          sendBtn.classList.remove('loading');
+        });
     });
   }
 
@@ -235,29 +235,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (bgm && bgmBtn) {
     bgm.volume = 0.5; // Default volume 50%
-    
+    const bgmContainer = bgmBtn.closest('.bgm-container');
+
+    const updatePlayState = () => {
+      isPlaying = true;
+      bgmBtn.innerHTML = '🔊';
+      bgmBtn.style.opacity = '1';
+      if (bgmContainer) bgmContainer.classList.add('playing');
+    };
+
+    const updatePauseState = () => {
+      isPlaying = false;
+      bgmBtn.innerHTML = '🎵';
+      bgmBtn.style.opacity = '0.7';
+      if (bgmContainer) bgmContainer.classList.remove('playing');
+    };
+
+    bgm.addEventListener('play', updatePlayState);
+    bgm.addEventListener('pause', updatePauseState);
+
     const tryPlayMusic = () => {
-      if (!isPlaying) {
-        const playPromise = bgm.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            isPlaying = true;
-            bgmBtn.innerHTML = '🔊';
-            bgmBtn.style.opacity = '1';
+      if (bgm.paused) {
+        bgm.play()
+          .then(() => {
             // Remove the interaction listeners once it starts successfully
             ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
               document.removeEventListener(evt, tryPlayMusic);
             });
-          }).catch(err => {
+          })
+          .catch(err => {
             // Autoplay blocked, wait for user interaction
           });
-        }
       }
     };
 
     // Attempt to play immediately (usually works if user previously allowed it)
     tryPlayMusic();
-    
+
     // Fallback: If blocked, play upon the very first user interaction
     ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
       document.addEventListener(evt, tryPlayMusic, { once: true });
@@ -265,13 +279,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bgmBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (!isPlaying) {
-        tryPlayMusic();
+      if (bgm.paused) {
+        bgm.play().catch(e => console.log(e));
       } else {
         bgm.pause();
-        isPlaying = false;
-        bgmBtn.innerHTML = '🎵';
-        bgmBtn.style.opacity = '0.7';
       }
     });
   }
@@ -281,15 +292,15 @@ document.addEventListener('DOMContentLoaded', () => {
   ============================================ */
   const dogContainer = document.getElementById('pixel-dog-container');
   const dogImg = document.getElementById('pixel-dog');
-  
+
   if (dogContainer && dogImg) {
     let heartInterval = null;
-    
+
     const spawnLargeHeart = () => {
       const heart = document.createElement('div');
       heart.className = 'large-heart-particle';
       dogContainer.appendChild(heart);
-      
+
       setTimeout(() => {
         heart.remove();
       }, 1200);
