@@ -2,10 +2,11 @@
 import { AssetLoader } from './assetLoader.js';
 
 export class BuddhaScene {
-  constructor(canvas, textElement) {
+  constructor(canvas, textElement, onVictory) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.textElement = textElement;
+    this.onVictory = onVictory;
 
     this.w = 600;
     this.h = 400;
@@ -105,9 +106,17 @@ export class BuddhaScene {
     this.chantTimer += dt;
     if (this.chantTimer >= 3.5) {
       this.chantTimer = 0;
+
+      // If we finished the last chant, trigger victory
+      if (this.chantIndex === this.chants.length - 1) {
+        if (this.onVictory) {
+          this.onVictory();
+          return;
+        }
+      }
+
       this.chantIndex = (this.chantIndex + 1) % this.chants.length;
       if (this.textElement) {
-        // Fade out/in effect using DOM classes if desired, or simple text replacement
         this.textElement.style.opacity = 0;
         setTimeout(() => {
           if (this.running && this.textElement) {

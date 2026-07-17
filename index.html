@@ -41,7 +41,7 @@
 
   <!-- Audio Element -->
   <audio id="bgm" loop autoplay preload="auto">
-    <source src="sound/notcuteanymore" type="audio/mpeg">
+    <source src="sound/notcuteanymore.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Navigation -->
@@ -59,9 +59,11 @@
             <span class="wave-bar bar-2"></span>
             <span class="wave-bar bar-3"></span>
           </div>
-          <a href="https://www.instagram.com/hoangngtr/" target="_blank" rel="noopener noreferrer" class="bgm-ig-link" title="Instagram của Hoàng">
+          <a href="https://www.instagram.com/hoangngtr/" target="_blank" rel="noopener noreferrer" class="bgm-ig-link"
+            title="Instagram của Hoàng">
             <svg class="ig-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
             </svg>
           </a>
         </div>
@@ -103,13 +105,10 @@
               </div>
             </span>
           </h1>
-          <div class="mini-game-hint reveal-up">🎮 Click các tag bên dưới để chơi mini game nè:</div>
+          <div class="mini-game-hint reveal-up">🎮 Click nút bên dưới để bắt đầu câu chuyện cuộc đời Hoàng:</div>
           <div class="hero-tags">
             <span class="cat-zone">Sinh năm 2005</span>
-            <span class="cat-zone" id="tag-football">Đá bóng ⚽</span>
-            <span class="cat-zone" id="tag-mma">MMA 🥊</span>
-            <span class="cat-zone" id="tag-buddha">Đã quy y 🙏</span>
-            <span class="cat-zone" id="tag-cooking">Nấu ăn 🍳</span>
+            <span class="cat-zone" id="tag-start-story" style="background: var(--blue) !important; color: white !important; border-color: var(--blue) !important; font-weight: bold; cursor: pointer;">Chơi Game Cuộc Đời 🎮➔</span>
           </div>
         </div>
       </div>
@@ -201,19 +200,97 @@
       autocomplete="off">
   </div>
 
+  <!-- Story Guide Modal -->
+  <div id="story-guide-modal" class="guide-modal hidden">
+    <div class="guide-modal-content">
+      <h2>📖 Hành Trình Cuộc Đời Hoàng</h2>
+      <p>Chào mừng bạn! Hãy cùng mèo trắng đi qua các chặng đường cuộc đời của Hoàng để mở khóa những điều thú vị và phần quà đặc biệt nhé!</p>
+      <div class="guide-levels-list">
+        <div>🏫 <strong>Màn 1: Trường học</strong> - Nhảy né tránh các trang sách vở</div>
+        <div>💬 <strong>Màn 2: Giông bão</strong> - Cùng Bông né tránh những lời độc địa</div>
+        <div>⚽ <strong>Màn 3: Bóng đá</strong> - Rê bóng qua chướng ngại vật nhận huy hiệu 30tr</div>
+        <div>🥊 <strong>Màn 4: MMA</strong> - Né tránh những cú đấm đầy kỷ luật</div>
+        <div>🙏 <strong>Màn 5: Thiền tịnh</strong> - Quy y tĩnh lặng và vẽ tiếp câu chuyện</div>
+      </div>
+      <button id="guide-start-btn" class="guide-start-btn">Bắt đầu hành trình ➔</button>
+    </div>
+  </div>
+
+  <!-- School Jump Game Overlay -->
+  <div id="school-jump-overlay" class="game-overlay hidden">
+    <div class="game-container">
+      <button id="close-school-btn" class="close-btn">&times;</button>
+      <div class="level-progress-bar"><div class="progress" style="width: 20%;"></div></div>
+      <canvas id="school-canvas"></canvas>
+      <div id="school-ui" class="game-ui">
+        <div class="score-board">Chặng 1/5 | Vượt qua sách vở: <span id="school-score">0</span>/5</div>
+        <div class="game-instructions">Nhấp chuột hoặc gõ phím Cách (Space) để giúp mèo nhảy qua sách vở!</div>
+      </div>
+      <div id="school-victory" class="victory-screen hidden">
+        <h2>HOÀN THÀNH HỌC ĐƯỜNG! 🏫</h2>
+        <p>Mèo con đã chăm chỉ vượt qua mọi bài vở học đường!</p>
+        <button id="school-next-btn" class="restart-btn">Màn tiếp theo ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toxic Dodge Game Overlay -->
+  <div id="toxic-dodge-overlay" class="game-overlay hidden">
+    <div class="game-container">
+      <button id="close-toxic-btn" class="close-btn">&times;</button>
+      <div class="level-progress-bar"><div class="progress" style="width: 40%;"></div></div>
+      <canvas id="toxic-canvas"></canvas>
+      <div id="toxic-ui" class="game-ui">
+        <div class="score-board">Chặng 2/5 | HP: <span id="toxic-health">❤❤❤</span> | Thời gian: <span id="toxic-timer">15</span>s</div>
+        <div class="game-instructions">Di chuyển chuột để mèo con và Bông né các lời nói độc hại! Rê chuột vào chú chó để hiện tên nhé!</div>
+      </div>
+
+      <!-- Dialogue Box overlay -->
+      <div id="story-dialogue-container" class="dialogue-container hidden">
+        <div class="dialogue-box">
+          <div class="dialogue-avatar-row">
+            <div class="avatar-speaker left">
+              <img src="picture/pixel_cat.png" class="avatar-img">
+              <span>Mèo con</span>
+            </div>
+            <div class="avatar-speaker right">
+              <img src="assets/dog/white_idle.gif" class="avatar-img">
+              <span>Bông</span>
+            </div>
+          </div>
+          <div class="dialogue-content">
+            <p id="dialogue-text">...</p>
+            <button id="dialogue-next-btn" class="dialogue-btn">Tiếp tục ➔</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="toxic-victory" class="victory-screen hidden">
+        <h2>VƯỢT QUA LỜI ĐỘC ĐỊA! 💪</h2>
+        <p>Mèo con và Bông đã cùng nhau vượt qua những điều gièm pha...</p>
+        <button id="toxic-next-btn" class="restart-btn">Màn tiếp theo (Đá bóng) ➔</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Football Game Overlay -->
   <div id="football-game-overlay" class="game-overlay hidden">
     <div class="game-container">
       <button id="close-game-btn" class="close-btn">&times;</button>
+      <div class="level-progress-bar"><div class="progress" style="width: 60%;"></div></div>
       <canvas id="football-canvas"></canvas>
-      <div id="game-ui">
-        <div class="score-board">Markers: <span id="cleared-markers">0</span>/5</div>
-        <div class="game-instructions">Rê bóng qua 5 marker màu cam! Mèo con sẽ thả tim cổ vũ!</div>
+      <div id="game-ui" class="game-ui">
+        <div class="score-board">Chặng 3/5 | Cones cleared: <span id="cleared-markers">0</span>/5</div>
+        <div class="game-instructions">Rê bóng qua 5 marker màu cam để rèn luyện đôi chân!</div>
       </div>
       <div id="game-victory" class="victory-screen hidden">
-        <h2>VICTORY! 🎉</h2>
-        <p>Bạn đã cùng mèo trắng dẫn bóng xuất sắc qua mọi chướng ngại vật!</p>
-        <button id="restart-game-btn" class="restart-btn">Chơi lại ⚽</button>
+        <h2>HOÀN THÀNH HUẤN LUYỆN! ⚽🎉</h2>
+        <p>Bạn đã dẫn bóng xuất sắc và nhận được phần thưởng danh giá:</p>
+        <div class="badge-30tr-container">
+          <div class="badge-30tr-icon">🏆</div>
+          <div class="badge-30tr-text">Huy hiệu 30tr</div>
+        </div>
+        <button id="football-next-btn" class="restart-btn" style="margin-top: 15px;">Màn tiếp theo (MMA) ➔</button>
       </div>
     </div>
   </div>
@@ -222,16 +299,16 @@
   <div id="mma-game-overlay" class="game-overlay hidden">
     <div class="game-container">
       <button id="close-mma-btn" class="close-btn">&times;</button>
+      <div class="level-progress-bar"><div class="progress" style="width: 80%;"></div></div>
       <canvas id="mma-canvas"></canvas>
-      <div id="mma-ui">
-        <div class="score-board">HP: <span id="mma-health">❤❤❤</span> | Thời gian: <span id="mma-timer">20</span>s</div>
+      <div id="mma-ui" class="game-ui">
+        <div class="score-board">Chặng 4/5 | HP: <span id="mma-health">❤❤❤</span> | Thời gian: <span id="mma-timer">20</span>s</div>
         <div class="game-instructions">Di chuyển mèo né găng tay đấm bay tới!</div>
       </div>
       <div id="mma-victory" class="victory-screen hidden">
-        <h2>VICTORY! 🎉</h2>
-        <p>Bạn đã né đòn cực đỉnh! Đây là phần thưởng dành cho bạn:</p>
-        <img src="picture/co_ny/1.jpg" alt="Easter Egg" class="easter-egg-img">
-        <button id="restart-mma-btn" class="restart-btn" style="margin-top: 10px;">Chơi lại 🥊</button>
+        <h2>BẢN LĨNH ĐẤU SĨ! 🥊🎉</h2>
+        <p>Thành công vượt qua các thử thách gian nan. Tiếp cận Phật pháp để tĩnh tâm:</p>
+        <button id="mma-next-btn" class="restart-btn" style="margin-top: 10px;">Đến chặng Phật Pháp 🙏➔</button>
       </div>
       <div id="mma-defeat" class="victory-screen hidden" style="background: rgba(45, 15, 15, 0.96);">
         <h2 style="color: #ff6b6b;">THẤT BẠI! 😢</h2>
@@ -241,35 +318,20 @@
     </div>
   </div>
 
-  <!-- Cooking Game Overlay -->
-  <div id="cooking-game-overlay" class="game-overlay hidden">
-    <div class="game-container">
-      <button id="close-cooking-btn" class="close-btn">&times;</button>
-      <canvas id="cooking-canvas"></canvas>
-      <div id="cooking-ui">
-        <div class="score-board">Điểm: <span id="cooking-score">0</span>/100 | Thời gian: <span id="cooking-timer">20</span>s</div>
-        <div class="game-instructions">Di chuyển mèo hứng hạt rơi, tránh dao và chảo!</div>
-      </div>
-      <div id="cooking-victory" class="victory-screen hidden">
-        <h2>VICTORY! 🍳🎉</h2>
-        <p>Bạn đã giúp mèo nấu ăn xuất sắc! Thưởng thức nhạc MMA cực bốc nhé!</p>
-        <button id="restart-cooking-btn" class="restart-btn" style="margin-top: 10px;">Chơi lại 🍳</button>
-      </div>
-      <div id="cooking-defeat" class="victory-screen hidden" style="background: rgba(45, 15, 15, 0.96);">
-        <h2 style="color: #ff6b6b;">THẤT BẠI! 😢</h2>
-        <p>Không đủ 100 điểm rồi...</p>
-        <button id="retry-cooking-btn" class="restart-btn">Thử lại 🍳</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Buddha Zen Overlay -->
   <div id="buddha-game-overlay" class="game-overlay hidden">
     <div class="game-container buddha-container">
       <button id="close-buddha-btn" class="close-btn">&times;</button>
+      <div class="level-progress-bar"><div class="progress" style="width: 100%;"></div></div>
       <canvas id="buddha-canvas"></canvas>
-      <div id="buddha-ui">
+      <div id="buddha-ui" class="game-ui">
         <div class="zen-text" id="zen-chant">Nam Mô A Di Đà Phật...</div>
+      </div>
+      <div id="buddha-victory" class="victory-screen hidden">
+        <h2>QUY Y PHẬT PHÁP 🙏</h2>
+        <p>Tâm hồn mèo con đã tìm thấy sự thanh tịnh an yên giữa cuộc đời.</p>
+        <h3 style="color: var(--blue); font-family: var(--font-display); margin-top: 15px;">Hãy cùng vẽ tiếp câu chuyện của mèo nhé!</h3>
+        <button id="buddha-next-btn" class="restart-btn" style="margin-top: 15px; background: #d4af37 !important;">Hẹn đi chơi cùng Hoàng 💕➔</button>
       </div>
     </div>
   </div>

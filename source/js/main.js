@@ -1,4 +1,3 @@
-// main.js
 import { AssetLoader } from './assetLoader.js';
 import { Cursor } from './cursor.js';
 import { Cat } from './cat.js';
@@ -8,7 +7,8 @@ import { Pet } from './pet.js';
 import { WeatherEngine } from './weather.js';
 import { FootballGame } from './footballGame.js';
 import { MmaGame } from './mmaGame.js';
-import { CookingGame } from './cookingGame.js';
+import { SchoolJumpGame } from './schoolJumpGame.js';
+import { ToxicDodgeGame } from './toxicDodgeGame.js';
 import { BuddhaScene } from './buddhaScene.js';
 
 const CAT_COLOR = 'white';
@@ -172,75 +172,249 @@ Object.defineProperty(window, 'gameActive', {
     }
   }
 
-  // 5. Initialize Football game
+  // 5. Initialize linear story mode games
+  const tagStartStory = document.getElementById('tag-start-story');
+  const guideModal = document.getElementById('story-guide-modal');
+  const guideStartBtn = document.getElementById('guide-start-btn');
+
+  // Show guide modal on page load
+  if (guideModal) {
+    guideModal.classList.remove('hidden');
+  }
+
+  if (tagStartStory && guideModal) {
+    tagStartStory.addEventListener('click', () => {
+      guideModal.classList.remove('hidden');
+    });
+  }
+
+  if (guideStartBtn && guideModal) {
+    guideStartBtn.addEventListener('click', () => {
+      guideModal.classList.add('hidden');
+      startSchoolGame();
+    });
+  }
+
+  // --- LEVEL 1: School Jump ---
+  const schoolOverlay = document.getElementById('school-jump-overlay');
+  const schoolCanvas = document.getElementById('school-canvas');
+  const schoolScoreSpan = document.getElementById('school-score');
+  const schoolNextBtn = document.getElementById('school-next-btn');
+  const schoolVictoryScreen = document.getElementById('school-victory');
+  const closeSchoolBtn = document.getElementById('close-school-btn');
+
+  let schoolGame = null;
+
+  if (schoolOverlay && schoolCanvas) {
+    schoolGame = new SchoolJumpGame(
+      schoolCanvas,
+      (score) => {
+        if (schoolScoreSpan) schoolScoreSpan.textContent = score;
+      },
+      () => {
+        if (schoolVictoryScreen) schoolVictoryScreen.classList.remove('hidden');
+      }
+    );
+
+    const startSchoolGame = () => {
+      window.gameActive = true;
+      schoolOverlay.classList.remove('hidden');
+      schoolVictoryScreen.classList.add('hidden');
+      
+      // Hide companion pets
+      catEl.style.display = 'none';
+      cursorEl.style.display = 'none';
+      npcPets.forEach(npc => npc.el.style.display = 'none');
+
+      schoolGame.start();
+    };
+
+    const stopSchoolGame = () => {
+      window.gameActive = false;
+      schoolOverlay.classList.add('hidden');
+      
+      // Restore companions
+      catEl.style.display = '';
+      cursorEl.style.display = '';
+      npcPets.forEach(npc => npc.el.style.display = '');
+
+      schoolGame.stop();
+    };
+
+    closeSchoolBtn?.addEventListener('click', stopSchoolGame);
+    schoolNextBtn?.addEventListener('click', () => {
+      stopSchoolGame();
+      startToxicGame(); // Go to Level 2
+    });
+  }
+
+  // --- LEVEL 2: Toxic Dodge & Dialog ---
+  const toxicOverlay = document.getElementById('toxic-dodge-overlay');
+  const toxicCanvas = document.getElementById('toxic-canvas');
+  const toxicHealthSpan = document.getElementById('toxic-health');
+  const toxicTimerSpan = document.getElementById('toxic-timer');
+  const toxicVictoryScreen = document.getElementById('toxic-victory');
+  const closeToxicBtn = document.getElementById('close-toxic-btn');
+  const toxicNextBtn = document.getElementById('toxic-next-btn');
+
+  const dialogueContainer = document.getElementById('story-dialogue-container');
+  const dialogueText = document.getElementById('dialogue-text');
+  const dialogueNextBtn = document.getElementById('dialogue-next-btn');
+
+  let toxicGame = null;
+  let currentDialogIndex = 0;
+  
+  // Dialog script
+  const dialogScript = [
+    { speaker: 'cat', text: "Mình mệt mỏi quá Bông ơi... Những lời nói độc hại kia làm tớ đau lòng quá." },
+    { speaker: 'dog', text: "Đừng buồn Mèo con, cậu đã rất dũng cảm khi vượt qua chúng rồi!" },
+    { speaker: 'dog', text: "Nhưng tớ nghĩ tớ phải rẽ sang con đường riêng của tớ rồi..." },
+    { speaker: 'cat', text: "Tớ hiểu mà. Cảm ơn Bông đã đồng hành cùng tớ suốt chặng đường qua nhé!" },
+    { speaker: 'dog', text: "Tạm biệt cậu nhé! Hãy luôn vững tin và tiếp tục hành trình thật tốt nha!" }
+  ];
+
+  if (toxicOverlay && toxicCanvas) {
+    toxicGame = new ToxicDodgeGame(
+      toxicCanvas,
+      (hp) => {
+        if (toxicHealthSpan) toxicHealthSpan.textContent = '❤'.repeat(Math.max(0, hp)) || 'X_X';
+      },
+      (timer) => {
+        if (toxicTimerSpan) toxicTimerSpan.textContent = timer;
+      },
+      () => {
+        // Dialogue start callback
+        startDialogue();
+      },
+      () => {
+        // Complete walkAway callback
+        if (toxicVictoryScreen) toxicVictoryScreen.classList.remove('hidden');
+      }
+    );
+
+    const startToxicGame = () => {
+      window.gameActive = true;
+      toxicOverlay.classList.remove('hidden');
+      toxicVictoryScreen.classList.add('hidden');
+      dialogueContainer?.classList.add('hidden');
+
+      // Hide companions
+      catEl.style.display = 'none';
+      cursorEl.style.display = 'none';
+      npcPets.forEach(npc => npc.el.style.display = 'none');
+
+      toxicGame.start();
+    };
+
+    const stopToxicGame = () => {
+      window.gameActive = false;
+      toxicOverlay.classList.add('hidden');
+
+      // Restore companions
+      catEl.style.display = '';
+      cursorEl.style.display = '';
+      npcPets.forEach(npc => npc.el.style.display = '');
+
+      toxicGame.stop();
+    };
+
+    const startDialogue = () => {
+      currentDialogIndex = 0;
+      dialogueContainer?.classList.remove('hidden');
+      showDialogueLine();
+    };
+
+    const showDialogueLine = () => {
+      if (!dialogueText || !dialogueContainer) return;
+      const line = dialogScript[currentDialogIndex];
+      
+      // Update dialogue speaker UI styling
+      const speakerCat = dialogueContainer.querySelector('.avatar-speaker.left');
+      const speakerDog = dialogueContainer.querySelector('.avatar-speaker.right');
+
+      if (line.speaker === 'cat') {
+        speakerCat?.classList.add('active');
+        speakerDog?.classList.remove('active');
+      } else {
+        speakerCat?.classList.remove('active');
+        speakerDog?.classList.add('active');
+      }
+
+      dialogueText.textContent = line.text;
+    };
+
+    dialogueNextBtn?.addEventListener('click', () => {
+      currentDialogIndex++;
+      if (currentDialogIndex < dialogScript.length) {
+        showDialogueLine();
+      } else {
+        dialogueContainer?.classList.add('hidden');
+        // Tell toxicGame to run the walk away separation animation
+        toxicGame.startWalkAway();
+      }
+    });
+
+    closeToxicBtn?.addEventListener('click', stopToxicGame);
+    toxicNextBtn?.addEventListener('click', () => {
+      stopToxicGame();
+      startFootballGame(); // Go to Level 3
+    });
+  }
+
+  // --- LEVEL 3: Football Game ---
   const footballOverlay = document.getElementById('football-game-overlay');
   const footballCanvas = document.getElementById('football-canvas');
   const clearedMarkersSpan = document.getElementById('cleared-markers');
-  const victoryScreen = document.getElementById('game-victory');
-  const closeGameBtn = document.getElementById('close-game-btn');
-  const restartGameBtn = document.getElementById('restart-game-btn');
-  const tagFootball = document.getElementById('tag-football');
-  
-  window.gameActive = false;
+  const footballVictoryScreen = document.getElementById('game-victory');
+  const closeFootballBtn = document.getElementById('close-game-btn');
+  const footballNextBtn = document.getElementById('football-next-btn');
+
   let footballGame = null;
 
-  if (tagFootball && footballOverlay && footballCanvas) {
+  if (footballOverlay && footballCanvas) {
     footballGame = new FootballGame(
       footballCanvas,
       (score) => {
         if (clearedMarkersSpan) clearedMarkersSpan.textContent = score;
       },
       () => {
-        if (victoryScreen) victoryScreen.classList.remove('hidden');
+        if (footballVictoryScreen) footballVictoryScreen.classList.remove('hidden');
       }
     );
 
-    const startGame = () => {
+    const startFootballGame = () => {
       window.gameActive = true;
       footballOverlay.classList.remove('hidden');
-      victoryScreen.classList.add('hidden');
-      
-      // Hide elements
+      footballVictoryScreen.classList.add('hidden');
+
+      // Hide companions
       catEl.style.display = 'none';
       cursorEl.style.display = 'none';
       npcPets.forEach(npc => npc.el.style.display = 'none');
-      
+
       footballGame.start();
     };
 
-    const stopGame = () => {
+    const stopFootballGame = () => {
       window.gameActive = false;
       footballOverlay.classList.add('hidden');
-      
-      // Restore elements
+
+      // Restore companions
       catEl.style.display = '';
       cursorEl.style.display = '';
       npcPets.forEach(npc => npc.el.style.display = '');
-      
+
       footballGame.stop();
     };
 
-    tagFootball.addEventListener('click', () => {
-      startGame();
-    });
-
-    closeGameBtn.addEventListener('click', () => {
-      stopGame();
-    });
-
-    restartGameBtn.addEventListener('click', () => {
-      startGame();
-    });
-
-    // Close on Escape key
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && window.gameActive) {
-        stopGame();
-      }
+    closeFootballBtn?.addEventListener('click', stopFootballGame);
+    footballNextBtn?.addEventListener('click', () => {
+      stopFootballGame();
+      startMmaGame(); // Go to Level 4
     });
   }
 
-  // 6. Initialize MMA game
+  // --- LEVEL 4: MMA Game ---
   const mainBgm = document.getElementById('bgm');
   const mmaOverlay = document.getElementById('mma-game-overlay');
   const mmaCanvas = document.getElementById('mma-canvas');
@@ -249,26 +423,21 @@ Object.defineProperty(window, 'gameActive', {
   const mmaVictoryScreen = document.getElementById('mma-victory');
   const mmaDefeatScreen = document.getElementById('mma-defeat');
   const closeMmaBtn = document.getElementById('close-mma-btn');
-  const restartMmaBtn = document.getElementById('restart-mma-btn');
+  const mmaNextBtn = document.getElementById('mma-next-btn');
   const retryMmaBtn = document.getElementById('retry-mma-btn');
-  const tagMma = document.getElementById('tag-mma');
 
   let mmaGame = null;
   let mmaPlayMusic = null;
   let wasBgmPlayingMma = false;
 
-  if (tagMma && mmaOverlay && mmaCanvas) {
+  if (mmaOverlay && mmaCanvas) {
     mmaGame = new MmaGame(
       mmaCanvas,
       (hp) => {
-        if (mmaHealthSpan) {
-          mmaHealthSpan.textContent = '❤'.repeat(Math.max(0, hp)) || 'X_X';
-        }
+        if (mmaHealthSpan) mmaHealthSpan.textContent = '❤'.repeat(Math.max(0, hp)) || 'X_X';
       },
       (timer) => {
-        if (mmaTimerSpan) {
-          mmaTimerSpan.textContent = timer;
-        }
+        if (mmaTimerSpan) mmaTimerSpan.textContent = timer;
       },
       () => {
         if (mmaVictoryScreen) mmaVictoryScreen.classList.remove('hidden');
@@ -298,7 +467,7 @@ Object.defineProperty(window, 'gameActive', {
       mmaPlayMusic.currentTime = 0;
       mmaPlayMusic.play().catch(e => console.log("Music play blocked: ", e));
 
-      // Hide elements
+      // Hide companions
       catEl.style.display = 'none';
       cursorEl.style.display = 'none';
       npcPets.forEach(npc => npc.el.style.display = 'none');
@@ -319,7 +488,7 @@ Object.defineProperty(window, 'gameActive', {
         mainBgm.play().catch(e => console.log(e));
       }
 
-      // Restore elements
+      // Restore companions
       catEl.style.display = '';
       cursorEl.style.display = '';
       npcPets.forEach(npc => npc.el.style.display = '');
@@ -327,182 +496,40 @@ Object.defineProperty(window, 'gameActive', {
       mmaGame.stop();
     };
 
-    tagMma.addEventListener('click', () => {
-      startMmaGame();
-    });
-
-    closeMmaBtn.addEventListener('click', () => {
+    closeMmaBtn?.addEventListener('click', stopMmaGame);
+    mmaNextBtn?.addEventListener('click', () => {
       stopMmaGame();
+      startBuddhaScene(); // Go to Level 5
     });
-
-    restartMmaBtn.addEventListener('click', () => {
-      startMmaGame();
-    });
-
-    retryMmaBtn.addEventListener('click', () => {
-      startMmaGame();
-    });
-
-    // Close on Escape key
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && window.gameActive) {
-        stopMmaGame();
-      }
-    });
+    retryMmaBtn?.addEventListener('click', startMmaGame);
   }
 
-  // 7. Initialize Cooking game
-  const cookingOverlay = document.getElementById('cooking-game-overlay');
-  const cookingCanvas = document.getElementById('cooking-canvas');
-  const cookingScoreSpan = document.getElementById('cooking-score');
-  const cookingTimerSpan = document.getElementById('cooking-timer');
-  const cookingVictoryScreen = document.getElementById('cooking-victory');
-  const cookingDefeatScreen = document.getElementById('cooking-defeat');
-  const closeCookingBtn = document.getElementById('close-cooking-btn');
-  const restartCookingBtn = document.getElementById('restart-cooking-btn');
-  const retryCookingBtn = document.getElementById('retry-cooking-btn');
-  const tagCooking = document.getElementById('tag-cooking');
-
-  let cookingGame = null;
-  let cookingPlayMusic = null;
-  let mmaMusic = null;
-  let wasBgmPlaying = false;
-
-  if (tagCooking && cookingOverlay && cookingCanvas) {
-    cookingGame = new CookingGame(
-      cookingCanvas,
-      (score) => {
-        if (cookingScoreSpan) {
-          cookingScoreSpan.textContent = score;
-        }
-      },
-      (timer) => {
-        if (cookingTimerSpan) {
-          cookingTimerSpan.textContent = timer;
-        }
-      },
-      () => {
-        // Victory callback
-        if (cookingVictoryScreen) cookingVictoryScreen.classList.remove('hidden');
-        // Stop gameplay music and play epic MMA music
-        if (cookingPlayMusic) {
-          cookingPlayMusic.pause();
-        }
-        if (!mmaMusic) {
-          mmaMusic = new Audio('sound/mma.mp3');
-          mmaMusic.loop = true;
-          mmaMusic.volume = 0.6;
-        }
-        mmaMusic.currentTime = 0;
-        mmaMusic.play().catch(err => console.log("Music play blocked: ", err));
-      },
-      () => {
-        // Defeat callback
-        if (cookingDefeatScreen) cookingDefeatScreen.classList.remove('hidden');
-      }
-    );
-
-    const startCookingGame = () => {
-      window.gameActive = true;
-      cookingOverlay.classList.remove('hidden');
-      cookingVictoryScreen.classList.add('hidden');
-      cookingDefeatScreen.classList.add('hidden');
-
-      // Record BGM state
-      if (mainBgm) {
-        wasBgmPlaying = !mainBgm.paused;
-        mainBgm.pause();
-      }
-
-      // Hide MMA music if playing
-      if (mmaMusic) {
-        mmaMusic.pause();
-        mmaMusic.currentTime = 0;
-      }
-
-      // Play gameplay music
-      if (!cookingPlayMusic) {
-        cookingPlayMusic = new Audio('sound/nauan.mp3');
-        cookingPlayMusic.loop = true;
-        cookingPlayMusic.volume = 0.55;
-      }
-      cookingPlayMusic.currentTime = 0;
-      cookingPlayMusic.play().catch(err => console.log("Music play blocked: ", err));
-
-      // Hide screen companions
-      catEl.style.display = 'none';
-      cursorEl.style.display = 'none';
-      npcPets.forEach(npc => npc.el.style.display = 'none');
-
-      cookingGame.start();
-    };
-
-    const stopCookingGame = () => {
-      window.gameActive = false;
-      cookingOverlay.classList.add('hidden');
-
-      // Stop gameplay and MMA music, then restore BGM
-      if (cookingPlayMusic) {
-        cookingPlayMusic.pause();
-        cookingPlayMusic.currentTime = 0;
-      }
-      if (mmaMusic) {
-        mmaMusic.pause();
-        mmaMusic.currentTime = 0;
-      }
-      if (wasBgmPlaying && mainBgm) {
-        mainBgm.play().catch(e => console.log(e));
-      }
-
-      // Restore screen elements
-      catEl.style.display = '';
-      cursorEl.style.display = '';
-      npcPets.forEach(npc => npc.el.style.display = '');
-
-      cookingGame.stop();
-    };
-
-    tagCooking.addEventListener('click', () => {
-      startCookingGame();
-    });
-
-    closeCookingBtn.addEventListener('click', () => {
-      stopCookingGame();
-    });
-
-    restartCookingBtn.addEventListener('click', () => {
-      startCookingGame();
-    });
-
-    retryCookingBtn.addEventListener('click', () => {
-      startCookingGame();
-    });
-
-    // Close on Escape key
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && window.gameActive) {
-        stopCookingGame();
-      }
-    });
-  }
-
-  // 8. Initialize Buddha Zen scene
+  // --- LEVEL 5: Buddha Zen Scene & Final Booking Card ---
   const buddhaOverlay = document.getElementById('buddha-game-overlay');
   const buddhaCanvas = document.getElementById('buddha-canvas');
   const zenChantText = document.getElementById('zen-chant');
   const closeBuddhaBtn = document.getElementById('close-buddha-btn');
-  const tagBuddha = document.getElementById('tag-buddha');
+  const buddhaVictoryScreen = document.getElementById('buddha-victory');
+  const buddhaNextBtn = document.getElementById('buddha-next-btn');
 
   let buddhaScene = null;
   let zenMusic = null;
   let wasBgmPlayingBuddha = false;
 
-  if (tagBuddha && buddhaOverlay && buddhaCanvas) {
-    buddhaScene = new BuddhaScene(buddhaCanvas, zenChantText);
+  if (buddhaOverlay && buddhaCanvas) {
+    buddhaScene = new BuddhaScene(
+      buddhaCanvas, 
+      zenChantText,
+      () => {
+        // Victory callback
+        if (buddhaVictoryScreen) buddhaVictoryScreen.classList.remove('hidden');
+      }
+    );
 
     const startBuddhaScene = () => {
       window.gameActive = true;
       buddhaOverlay.classList.remove('hidden');
+      buddhaVictoryScreen.classList.add('hidden');
 
       // Record BGM state
       if (mainBgm) {
@@ -548,21 +575,50 @@ Object.defineProperty(window, 'gameActive', {
       buddhaScene.stop();
     };
 
-    tagBuddha.addEventListener('click', () => {
-      startBuddhaScene();
-    });
-
-    closeBuddhaBtn.addEventListener('click', () => {
+    closeBuddhaBtn?.addEventListener('click', stopBuddhaScene);
+    
+    buddhaNextBtn?.addEventListener('click', () => {
       stopBuddhaScene();
-    });
+      
+      // Navigate to booking section
+      const bookingBtn = document.querySelector('button[data-target="section-booking"]');
+      if (bookingBtn) {
+        bookingBtn.click();
+        
+        // Highlight form as a dating request card
+        const formElement = document.getElementById('booking-form');
+        const parentElement = formElement?.closest('.content-wrap') || formElement;
+        if (parentElement) {
+          parentElement.classList.add('booking-date-card');
+        }
 
-    // Close on Escape key
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && window.gameActive) {
-        stopBuddhaScene();
+        // Smooth scroll to the form
+        document.getElementById('section-booking')?.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
+
+  // Close on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && window.gameActive) {
+      schoolGame?.stop();
+      toxicGame?.stop();
+      footballGame?.stop();
+      mmaGame?.stop();
+      buddhaScene?.stop();
+      
+      schoolOverlay?.classList.add('hidden');
+      toxicOverlay?.classList.add('hidden');
+      footballOverlay?.classList.add('hidden');
+      mmaOverlay?.classList.add('hidden');
+      buddhaOverlay?.classList.add('hidden');
+      
+      window.gameActive = false;
+      catEl.style.display = '';
+      cursorEl.style.display = '';
+      npcPets.forEach(npc => npc.el.style.display = '');
+    }
+  });
 
   // 9. Main Loop
   let lastTime = performance.now();
