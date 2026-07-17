@@ -1612,3 +1612,51 @@ body:has(#story-guide-modal:not(.hidden)) #cursor-heart {
   height: 400px;
   margin: 0 auto;
 }
+
+/* Level Selection Menu & Recommendations in Guide Modal */
+.guide-recommendation {
+  background: rgba(255, 193, 7, 0.12);
+  border-left: 4px solid #ffc107;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #ffe082;
+  margin: 16px 0;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.level-select-menu {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.level-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.level-select-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.level-select-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}

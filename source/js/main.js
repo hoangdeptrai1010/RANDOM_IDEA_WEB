@@ -204,6 +204,35 @@ Object.defineProperty(window, 'gameActive', {
     });
   }
 
+  // Quick Level Selection click handlers
+  const levelSelectBtns = document.querySelectorAll('.level-select-btn');
+  levelSelectBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const level = btn.getAttribute('data-level');
+      
+      // Hide guide modal
+      guideModal?.classList.add('hidden');
+      
+      // Hide standard screen companions
+      catEl.style.display = 'none';
+      cursorEl.style.display = 'none';
+      npcPets.forEach(npc => npc.el.style.display = 'none');
+      
+      // Start corresponding level
+      if (level === '1') {
+        startSchoolGame();
+      } else if (level === '2') {
+        startToxicGame();
+      } else if (level === '3') {
+        startFootballGame();
+      } else if (level === '4') {
+        startMmaGame();
+      } else if (level === '5') {
+        startBuddhaScene();
+      }
+    });
+  });
+
   // --- LEVEL 1: School Jump ---
   const schoolOverlay = document.getElementById('school-jump-overlay');
   const schoolCanvas = document.getElementById('school-canvas');
