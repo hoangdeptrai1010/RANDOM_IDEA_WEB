@@ -1586,3 +1586,7 @@ body:has(#story-guide-modal:not(.hidden)) #cursor-heart {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   animation: bounceIcon 1.5s infinite ease-in-out;
 }
+
+.hidden {
+  display: none !important;
+}
