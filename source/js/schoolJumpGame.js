@@ -16,6 +16,7 @@ export class SchoolJumpGame {
     this.running = false;
     this.time = 0;
     this.score = 0;
+    this.phase = 'play'; // 'play' or 'cutscene'
 
     // Physics constants
     this.gravity = 0.45;
@@ -32,6 +33,19 @@ export class SchoolJumpGame {
       state: 'walk' // walk, jump, land
     };
 
+    // Bông the dog entity details for cutscene
+    this.dog = {
+      x: 610,
+      y: this.floorY,
+      targetX: 200,
+      speed: 85,
+      frameTime: 0
+    };
+
+    // Mouse coordinates for Bông hover detection
+    this.mouseX = -999;
+    this.mouseY = -999;
+
     this.obstacles = [];
     this.lastSpawnTime = 0;
     this.spawnInterval = 2.0; // Spawn obstacle every 2s
@@ -42,13 +56,20 @@ export class SchoolJumpGame {
   initEntities() {
     this.score = 0;
     this.time = 0;
+    this.phase = 'play';
     this.obstacles = [];
-    this.lastSpawnTime = 0;
+    this.lastSpawnTime = -0.5; // Starts at -0.5s so first spawns quickly at t = 1.5s
 
     this.cat.y = this.floorY;
     this.cat.vy = 0;
     this.cat.isGrounded = true;
     this.cat.state = 'walk';
+
+    this.dog.x = 610;
+    this.dog.frameTime = 0;
+
+    // Spawn first book obstacle immediately
+    this.spawnObstacle();
 
     if (this.onScoreChange) this.onScoreChange(this.score);
   }
@@ -56,7 +77,7 @@ export class SchoolJumpGame {
   setupEvents() {
     // Jump trigger on click/touch
     const triggerJump = () => {
-      if (this.running && this.cat.isGrounded) {
+      if (this.running && this.cat.isGrounded && this.phase === 'play') {
         this.cat.vy = this.cat.jumpForce;
         this.cat.isGrounded = false;
         this.cat.state = 'jump';
@@ -69,11 +90,33 @@ export class SchoolJumpGame {
       e.preventDefault();
     }, { passive: false });
 
-    // Jump trigger on Spacebar
+    // Jump trigger on Spacebar (preventing default scrolling)
     window.addEventListener('keydown', (e) => {
       if (e.key === ' ' || e.code === 'Space') {
-        triggerJump();
+        if (this.running && this.phase === 'play') {
+          e.preventDefault();
+          triggerJump();
+        }
       }
+    });
+
+    // Track mouse coordinate offsets on chalkboard canvas
+    const getCanvasMousePos = (e) => {
+      const rect = this.canvas.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * this.w;
+      const y = ((e.clientY - rect.top) / rect.height) * this.h;
+      return { x, y };
+    };
+
+    this.canvas.addEventListener('mousemove', (e) => {
+      const pos = getCanvasMousePos(e);
+      this.mouseX = pos.x;
+      this.mouseY = pos.y;
+    });
+
+    this.canvas.addEventListener('mouseleave', () => {
+      this.mouseX = -999;
+      this.mouseY = -999;
     });
   }
 
@@ -120,46 +163,67 @@ export class SchoolJumpGame {
       }
     }
 
-    // Spawn obstacles (books)
-    if (this.time - this.lastSpawnTime > this.spawnInterval) {
-      this.lastSpawnTime = this.time;
-      this.spawnObstacle();
-    }
-
-    // Update obstacles
-    for (let i = this.obstacles.length - 1; i >= 0; i--) {
-      const obs = this.obstacles[i];
-      obs.x -= obs.speed * (1 + this.score * 0.05); // speed increases slightly with score
-
-      // Check collision
-      if (
-        obs.x + obs.w > this.cat.x - this.cat.radius &&
-        obs.x < this.cat.x + this.cat.radius &&
-        this.floorY - obs.h < this.cat.y + this.cat.radius &&
-        this.floorY > this.cat.y - this.cat.radius
-      ) {
-        // Reset Level 1 on collision (retro challenge style)
-        this.initEntities();
-        return;
+    if (this.phase === 'play') {
+      // Spawn obstacles (books)
+      if (this.time - this.lastSpawnTime > this.spawnInterval) {
+        this.lastSpawnTime = this.time;
+        this.spawnObstacle();
       }
 
-      // Check score
-      if (!obs.passed && obs.x + obs.w < this.cat.x) {
-        obs.passed = true;
-        this.score++;
-        if (this.onScoreChange) this.onScoreChange(this.score);
+      // Update obstacles
+      for (let i = this.obstacles.length - 1; i >= 0; i--) {
+        const obs = this.obstacles[i];
+        obs.x -= obs.speed * (1 + this.score * 0.05); // speed increases slightly with score
 
-        // Win condition
-        if (this.score >= 5) {
-          this.stop();
-          if (this.onVictory) this.onVictory();
+        // Check collision
+        if (
+          obs.x + obs.w > this.cat.x - this.cat.radius &&
+          obs.x < this.cat.x + this.cat.radius &&
+          this.floorY - obs.h < this.cat.y + this.cat.radius &&
+          this.floorY > this.cat.y - this.cat.radius
+        ) {
+          // Reset Level 1 on collision (retro challenge style)
+          this.initEntities();
           return;
+        }
+
+        // Check score
+        if (!obs.passed && obs.x + obs.w < this.cat.x) {
+          obs.passed = true;
+          this.score++;
+          if (this.onScoreChange) this.onScoreChange(this.score);
+
+          // Win transition to cutscene
+          if (this.score >= 5) {
+            this.phase = 'cutscene';
+            return;
+          }
+        }
+
+        // Remove off-screen obstacles
+        if (obs.x < -obs.w) {
+          this.obstacles.splice(i, 1);
+        }
+      }
+    } else if (this.phase === 'cutscene') {
+      // Clear remaining books off screen
+      for (let i = this.obstacles.length - 1; i >= 0; i--) {
+        const obs = this.obstacles[i];
+        obs.x -= obs.speed;
+        if (obs.x < -obs.w) {
+          this.obstacles.splice(i, 1);
         }
       }
 
-      // Remove off-screen obstacles
-      if (obs.x < -obs.w) {
-        this.obstacles.splice(i, 1);
+      // Bông walks in from right
+      if (this.dog.x > this.dog.targetX) {
+        this.dog.x -= this.dog.speed * dt;
+        this.dog.frameTime += dt;
+        if (this.dog.x <= this.dog.targetX) {
+          this.dog.x = this.dog.targetX;
+          // Open victory screen overlay
+          if (this.onVictory) this.onVictory();
+        }
       }
     }
   }
@@ -210,7 +274,7 @@ export class SchoolJumpGame {
     // Text on board
     this.ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
     this.ctx.font = "16px 'Space Grotesk', sans-serif";
-    this.ctx.fillText("Hoàng - 2005", 50, 60);
+    this.ctx.fillText("Mồn Lèo - 2005", 50, 60);
     this.ctx.fillText("Màn 1: Trường học", 50, 90);
 
     // Classroom floor line
@@ -239,7 +303,13 @@ export class SchoolJumpGame {
       this.drawBook(obs.x, this.floorY - obs.h, obs.w, obs.h, obs.color);
     });
 
-    // 3. Draw Cat
+    // 3. Draw Dog Bông if in cutscene
+    if (this.phase === 'cutscene') {
+      this.drawDog();
+      this.drawTooltip();
+    }
+
+    // 4. Draw Cat
     this.drawCat();
   }
 
@@ -265,6 +335,65 @@ export class SchoolJumpGame {
     this.ctx.strokeStyle = '#000000';
     this.ctx.lineWidth = 2;
     this.ctx.strokeRect(x, y, w, h);
+  }
+
+  drawDog() {
+    this.ctx.save();
+    const dx = this.dog.x;
+    const dy = this.dog.y;
+    
+    // Draw white retro pixel dog (Bông)
+    this.ctx.fillStyle = '#ffffff'; // White body
+    this.ctx.fillRect(dx - 12, dy - 20, 24, 16); // body
+    this.ctx.fillRect(dx + 4, dy - 28, 12, 10); // head
+    
+    this.ctx.fillStyle = '#f2d1d1'; // Pink ears
+    this.ctx.fillRect(dx + 2, dy - 26, 4, 6);
+    
+    this.ctx.fillStyle = '#000000'; // Eyes & nose
+    this.ctx.fillRect(dx + 12, dy - 25, 2, 2); // eye
+    this.ctx.fillRect(dx + 15, dy - 22, 2, 2); // nose
+    
+    // Animating legs
+    const legOffset = Math.sin(this.dog.frameTime * 12) > 0 ? 3 : 0;
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.fillRect(dx - 8, dy - 4, 3, 4); // leg 1
+    this.ctx.fillRect(dx - 2, dy - 4 + legOffset, 3, 4); // leg 2
+    this.ctx.fillRect(dx + 4, dy - 4, 3, 4); // leg 3
+    this.ctx.fillRect(dx + 8, dy - 4 + legOffset, 3, 4); // leg 4
+    
+    // Tail
+    this.ctx.fillRect(dx - 15, dy - 18, 4, 4);
+    
+    this.ctx.restore();
+  }
+
+  drawTooltip() {
+    const dx = this.dog.x;
+    const dy = this.dog.y;
+    
+    // Proximity check: within 45 pixels of Bông's center
+    const dist = Math.hypot(this.mouseX - dx, this.mouseY - (dy - 12));
+    if (dist < 45) {
+      this.ctx.save();
+      const tx = dx;
+      const ty = dy - 42;
+      
+      // Shadow border
+      this.ctx.fillStyle = '#000000';
+      this.ctx.fillRect(tx - 26, ty - 13, 52, 18);
+      
+      // White container
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fillRect(tx - 25, ty - 12, 50, 16);
+      
+      // Black text
+      this.ctx.fillStyle = '#000000';
+      this.ctx.font = "bold 11px monospace";
+      this.ctx.textAlign = "center";
+      this.ctx.fillText("Bông", tx, ty);
+      this.ctx.restore();
+    }
   }
 
   drawCat() {
