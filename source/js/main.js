@@ -190,11 +190,6 @@ Object.defineProperty(window, 'gameActive', {
   const guideModal = document.getElementById('story-guide-modal');
   const guideStartBtn = document.getElementById('guide-start-btn');
 
-  // Show guide modal on page load
-  if (guideModal) {
-    guideModal.classList.remove('hidden');
-  }
-
   if (tagStartStory && guideModal) {
     tagStartStory.addEventListener('click', () => {
       guideModal.classList.remove('hidden');
