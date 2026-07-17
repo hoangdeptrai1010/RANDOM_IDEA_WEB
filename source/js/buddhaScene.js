@@ -47,6 +47,7 @@ export class BuddhaScene {
     this.time = 0;
     this.chantIndex = 0;
     this.chantTimer = 0;
+    this.victoryTriggered = false;
     this.particles = [];
     this.cat.time = 0;
     this.cat.x = 300;
@@ -125,15 +126,16 @@ export class BuddhaScene {
 
     // 1. Cycle Chants
     this.chantTimer += dt;
-    if (this.chantTimer >= 1.5) {
+    if (this.chantTimer >= 1.0) {
       this.chantTimer = 0;
 
-      // If we finished the last chant, trigger victory
+      // If we finished the last chant, trigger victory once
       if (this.chantIndex === this.chants.length - 1) {
-        if (this.onVictory) {
+        if (this.onVictory && !this.victoryTriggered) {
+          this.victoryTriggered = true;
           this.onVictory();
-          return;
         }
+        return;
       }
 
       this.chantIndex = (this.chantIndex + 1) % this.chants.length;
