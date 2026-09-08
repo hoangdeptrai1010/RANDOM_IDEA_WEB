@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetBtn = document.getElementById('resetBtn');
 
   // Dán link Webhook Discord của bạn vào đây:
-  const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1526093981694562488/dabv_89wJAhLPZRYsiWg78UM76_udPQ10nA64-PQU2Dhr9qiqdSDvSBjIssehMI0P9dG';
+  const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546821994631270457/JccQgrctPSNAEkAEnFQpmz0Tsf4VodSn3kvx7aHhbhUK1EJ2mHYuNPRhx3P_4X30QoPz';
 
   if (form) {
     form.addEventListener('submit', (e) => {
