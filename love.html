@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Huỳnh Khánh Vy & Nguyễn Triệu Hoàng</title>
+  <meta name="description" content="Trang web dành riêng cho Huỳnh Khánh Vy từ Nguyễn Triệu Hoàng">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="source/css/Love.css">
+</head>
+
+<body>
+
+  <!-- Grain Texture Overlay -->
+  <div class="grain"></div>
+
+  <!-- Ambient Floating Glow Bubbles -->
+  <div class="floating-hearts-bg">
+    <div class="bg-bubble bubble-1"></div>
+    <div class="bg-bubble bubble-2"></div>
+    <div class="bg-bubble bubble-3"></div>
+  </div>
+
+  <!-- Audio Background Element -->
+  <audio id="bgm" loop preload="auto">
+    <source src="sound/notcuteanymore.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Floating Audio Button -->
+  <button id="bgm-btn" class="floating-bgm-btn" title="Bật/Tắt Nhạc">🎵</button>
+
+  <!-- Main Content Container -->
+  <main class="main-wrapper">
+
+    <!-- The Interactive Questionnaire Card -->
+    <section class="interactive-card">
+
+      <!-- ==================== CÂU HỎI 1 ==================== -->
+      <div class="question-step active" id="step-1">
+        <div class="step-badge">
+          <span>Câu 1 💭</span>
+        </div>
+
+        <h2 class="step-question">
+          "Bạn có biết nếu trả lời các câu hỏi sau đây có ảnh hưởng tới bạn và cả người xung quanh?"
+        </h2>
+
+        <div class="options-grid">
+          <button class="choice-btn primary" id="step1-choice1">
+            <span>Tôi biết có ảnh hưởng ✨</span>
+          </button>
+          <button class="choice-btn" id="step1-choice2">
+            <span>Không ảnh hưởng 🍃</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== CÂU HỎI 2 ==================== -->
+      <div class="question-step" id="step-2">
+        <div class="step-badge pink">
+          <span>Câu 2 💌</span>
+        </div>
+
+        <h2 class="step-question">
+          "Người tạo ra web này và bạn cũng đã tiếp xúc khá lâu và người tạo ra web có một tình cảm rất lớn với bạn. Bạn có biết điều đó?"
+        </h2>
+
+        <div class="options-grid">
+          <button class="choice-btn primary" id="step2-choice1">
+            <span>Có nè 🥺</span>
+          </button>
+          <button class="choice-btn" id="step2-choice2">
+            <span>Chưa biết nha 👀</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== CÂU HỎI 3: THE PROPOSAL ==================== -->
+      <div class="question-step" id="step-3">
+        <div class="step-badge pink">
+          <span>Câu quyết định 💖</span>
+        </div>
+
+        <h2 class="step-question" style="color: #c2185b; font-weight: 700;">
+          "Người tạo ra web này tên Nguyễn Triệu Hoàng muốn bạn Huỳnh Khánh Vy từ nay sẽ chính thức có danh phận. Liệu bạn Khánh Vy có muốn làm người yêu của trịu hòng không?"
+        </h2>
+
+        <div class="options-grid">
+          <button class="choice-btn pink-choice" id="final-yes-btn">
+            <span>Dạ có ạ 💕</span>
+          </button>
+          <button class="choice-btn danger-reject" id="final-no-btn">
+            <span>Không 🙈</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==================== ERROR MODAL (KHI BẤM 'KHÔNG') ==================== -->
+  <div class="custom-modal-overlay" id="error-modal">
+    <div class="modal-dialog">
+      <div class="modal-icon">🥺</div>
+      <h3 class="modal-title">Lựa chọn không khả dụng nè</h3>
+      <p class="modal-desc">
+        Hệ thống chỉ chấp nhận câu trả lời <strong>"Có"</strong> thôi nha. Chọn lại đi mà! 🥺
+      </p>
+      <button class="modal-btn primary-btn" id="error-modal-btn">
+        <span>Chọn lại nè ✨</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== VICTORY MODAL (KHI BẤM 'CÓ') ==================== -->
+  <div class="custom-modal-overlay" id="victory-modal">
+    <div class="modal-dialog victory-modal-dialog">
+      <h2 class="victory-title">CHÚC MỪNG KHÁNH VY & CHỊU HÒNG 🎉</h2>
+
+      <div class="victory-highlight-card">
+        <p class="victory-message-text">
+          "Chúc mừng bạn và chịu hòng sẽ chính thức là ngừi yêu để ăn mừng hãy hun vào người tạo ra web nhé 😽"
+        </p>
+      </div>
+
+      <div class="victory-actions">
+        <button class="kiss-btn" id="kiss-btn">
+          <span>Hun Trịu Hòng 💋</span>
+        </button>
+        <div class="sub-actions-row">
+          <a href="https://www.instagram.com/hoangngtr/" target="_blank" rel="noopener noreferrer" class="sub-btn">
+            <span>Nhắn tin cho Hoàng 💬</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Nguyễn Triệu Hoàng & Huỳnh Khánh Vy ❤️</p>
+  </footer>
+
+  <!-- Main JavaScript -->
+  <script src="source/js/Love.js"></script>
+</body>
+
+</html>
